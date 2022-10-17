@@ -1,0 +1,28 @@
+{
+  "name": "minecwaft2",
+  "version": "1.0.0",
+  "description": "Discord bot with multiples capabilities related to Minecraft servers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Remi4001/minecwaft2.git"
+  },
+  "keywords": [
+    "minecraft",
+    "discord",
+    "bot",
+    "server"
+  ],
+  "author": "Rémi Labelle",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/Remi4001/minecwaft2/issues"
+  },
+  "homepage": "https://github.com/Remi4001/minecwaft2#readme",
+  "dependencies": {
+    "discord.js": "^14.6.0"
+  }
+}
