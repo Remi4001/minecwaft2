@@ -105,3 +105,6 @@ dist
 
 # ESLint rules
 .eslintrc.json
+
+# Bot config
+config.json
