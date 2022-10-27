@@ -9,7 +9,7 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 // Collection used to store and efficiently retrieve commands for execution
 client.commands = new Collection();
-// Set pour gérer les commandes en cooldown
+// Set for handling commands cooldowns
 client.commands.cooldowns = new Set();
 
 // Import commands from the commands/ folder
