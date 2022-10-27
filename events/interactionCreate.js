@@ -21,7 +21,7 @@ module.exports = {
 
         if (command.ownerOnly && interaction.user.id !== ownerId) {
             await interaction.reply({
-                content: 'Nope! T\'as pas le droit de faire \u00e7a!',
+                content: 'Nope! You can\'t do that!',
                 ephemeral: true,
             });
             return;
@@ -29,8 +29,8 @@ module.exports = {
 
         if (interaction.client.commands.cooldowns.has(command.name)) {
             await interaction.reply({
-                content: `Veuillez attendre ${command.cooldown / 1000}
-                secondes avant de r\u00e9\u00e9x\u00e9cuter cette commande!`,
+                content: `You must wait ${command.cooldown / 1000}
+                seconds before executing this command again!`,
                 ephemeral: true,
             });
             return;
