@@ -1,11 +1,15 @@
 const { SlashCommandBuilder } = require('discord.js');
 const mcHermes = require('mc-hermes');
-const { mcType, mcIP, mcPort } = require('./config.js');
+const { mcType, mcIP, mcPort } = require('../config.json');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('ping')
-        .setDescription('Shows the status of the Minecraft server')
+        .setDescription('Shows the status of a Minecraft server')
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('default')
+                .setDescription('Shows the status of the Minecraft server'))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('server')
@@ -22,18 +26,18 @@ module.exports = {
                     option.setName('adress')
                         .setDescription('The adress of the server')
                         .setRequired(true))
-                .addSubcommand(subsubcommand =>
-                    subsubcommand
-                        .setName('list')
-                        .setDescription('Get the connected players list'))
-                .addSubcommand(subsubcommand =>
-                    subsubcommand
-                        .setName('modlist')
-                        .setDescription('List the mods present on the server')),
+                .addStringOption(option =>
+                    option.setName('option')
+                        .setDescription('Extra options')
+                        .addChoices(
+                            { name: 'playerlist', value: 'list' },
+                            { name: 'modlist', value: 'modlist' },
+                        )),
         ),
     async execute(interaction) {
         // TODO
-        if (noArgs) {
+        if (interaction.options.getSubcommand() === 'default') {
+            await interaction.deferReply();
             mcHermes({
                 type: mcType,
                 server: mcIP,
@@ -41,20 +45,20 @@ module.exports = {
             })
                 .catch(async (error) => {
                     console.warn(error);
-                    return await interaction.reply({
+                    return await interaction.editReply({
                         content: 'Error while pinging!',
                         ephemeral: true,
                     });
                 })
                 .then(async (data) => {
                     if (!data) {
-                        return await interaction.reply({
+                        return await interaction.editReply({
                             content: 'Impossible to reach the server!',
                         });
                     }
 
                     if (!data.players) {
-                        return await interaction.reply({
+                        return await interaction.editReply({
                             content: 'Server starting...',
                         });
                     }
@@ -64,12 +68,12 @@ module.exports = {
                     if (data.modinfo) msg = 'Modded';
                     else msg = 'Vanilla';
 
-                    return await interaction.reply({
-                        content: `${data.players.online}/${data.players.max}
-                        connected | ${data.version.name} ${msg}`,
+                    return await interaction.editReply({
+                        content: `${data.players.online}/${data.players.max} ` +
+                        `connected | ${data.version.name} ${msg}`,
                     });
                 });
-        } else {
+        } else if (interaction.options.getSubcommand() === 'server') {
             // TODO
         }
     },
