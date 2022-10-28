@@ -5,7 +5,32 @@ const { mcType, mcIP, mcPort } = require('./config.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('ping')
-        .setDescription('Shows the status of a Minecraft server'),
+        .setDescription('Shows the status of the Minecraft server')
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('server')
+                .setDescription('Shows the status of a specified Minecraft server')
+                .addStringOption(option =>
+                    option.setName('type')
+                        .setDescription('The type of Minecraft server')
+                        .setRequired(true)
+                        .addChoices(
+                            { name: 'Java', value: 'pc' },
+                            { name: 'Bedrock', value: 'pe' },
+                        ))
+                .addStringOption(option =>
+                    option.setName('adress')
+                        .setDescription('The adress of the server')
+                        .setRequired(true))
+                .addSubcommand(subsubcommand =>
+                    subsubcommand
+                        .setName('list')
+                        .setDescription('Get the connected players list'))
+                .addSubcommand(subsubcommand =>
+                    subsubcommand
+                        .setName('modlist')
+                        .setDescription('List the mods present on the server')),
+        ),
     async execute(interaction) {
         // TODO
         if (noArgs) {
