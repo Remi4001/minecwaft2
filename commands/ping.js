@@ -83,13 +83,15 @@ module.exports = {
 
             switch (option) {
                 case 'list':
-                    if (data.players.sample) {
+                    if (!data.players.sample) {
+                        msg = 'No players online';
+                    } else if (data.players.sample.length) {
                         msg = 'Players connected:';
                         for (let i = 0; i < data.players.sample.length; i++) {
                             msg += `\n- ${data.players.sample[i].name}`;
                         }
                     } else {
-                        msg = 'No players online';
+                        msg = 'Player list inaccessible';
                     }
                     break;
                 case 'modlist':
