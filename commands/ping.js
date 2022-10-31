@@ -24,7 +24,7 @@ module.exports = {
                         ))
                 .addStringOption(option =>
                     option.setName('adress')
-                        .setDescription('The adress of the server')
+                        .setDescription('The adress of the server <ip:port>')
                         .setRequired(true))
                 .addStringOption(option =>
                     option.setName('option')
@@ -35,46 +35,86 @@ module.exports = {
                         )),
         ),
     async execute(interaction) {
-        // TODO
+        await interaction.deferReply();
+        // TODO: locale
         if (interaction.options.getSubcommand() === 'default') {
-            await interaction.deferReply();
             mcHermes({
                 type: mcType,
                 server: mcIP,
                 port: mcPort,
             })
-                .catch(async (error) => {
-                    console.warn(error);
-                    return await interaction.editReply({
-                        content: 'Error while pinging!',
-                        ephemeral: true,
-                    });
-                })
-                .then(async (data) => {
-                    if (!data) {
-                        return await interaction.editReply({
-                            content: 'Impossible to reach the server!',
-                        });
+                .catch(console.error)
+                .then(async (data) => await reply(data));
+        } else if (interaction.options.getSubcommand() === 'server') {
+            const adress = interaction.options.getString('adress').split(':', 2);
+
+            mcHermes({
+                type: interaction.options.getString('type'),
+                server: adress[0],
+                port: adress[1],
+            })
+                .catch(console.error)
+                .then(async (data) => await reply(data));
+        }
+
+        async function reply(data) {
+            if (!data) {
+                return await interaction.editReply({
+                    content: 'Impossible to reach the server!',
+                });
+            }
+
+            if (!data.players) {
+                console.log(data);
+                return await interaction.editReply({
+                    content: 'Server starting...',
+                });
+            }
+
+            const option = interaction.options.getString('option');
+            let msg = new String;
+
+            switch (option) {
+                case 'list':
+                    if (data.players.sample) {
+                        msg = 'Players connected:';
+                        for (let i = 0; i < data.players.sample.length; i++) {
+                            msg += `\n- ${data.players.sample[i].name}`;
+                        }
+                    } else {
+                        msg = 'No players online';
                     }
+                    break;
+                case 'modlist':
+                    if (data.modinfo) {
+                        msg = 'Mods present on the server:';
+                        for (let i = 0; i < data.modinfo.modList.length; i++) {
+                            const modinfo = `- ${data.modinfo.modList[i].modid}` +
+                                ` ${data.modinfo.modList[i].version}`;
 
-                    if (!data.players) {
-                        return await interaction.editReply({
-                            content: 'Server starting...',
-                        });
+                            if (msg.length + modinfo.length > 2000) {
+                                await interaction.editReply({
+                                    content: msg,
+                                });
+                                msg = modinfo;
+                            } else {
+                                msg += '\n' + modinfo;
+                            }
+                        }
+                    } else {
+                        msg = 'No mods detected on the server';
                     }
-
-                    let msg = new String;
-
+                    break;
+                default:
                     if (data.modinfo) msg = 'Modded';
                     else msg = 'Vanilla';
 
-                    return await interaction.editReply({
-                        content: `${data.players.online}/${data.players.max} ` +
-                        `connected | ${data.version.name} ${msg}`,
-                    });
-                });
-        } else if (interaction.options.getSubcommand() === 'server') {
-            // TODO
+                    msg = `${data.players.online}/${data.players.max} ` +
+                        `connected | ${data.version.name} ${msg}`;
+            }
+            return await interaction.editReply({
+                content: msg,
+            });
         }
     },
 };
