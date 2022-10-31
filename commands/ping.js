@@ -65,7 +65,6 @@ module.exports = {
             }
 
             if (!data.players) {
-                console.log(data);
                 return await interaction.editReply({
                     content: 'Server starting...',
                 });
