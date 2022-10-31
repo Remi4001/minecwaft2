@@ -9,7 +9,15 @@ module.exports = {
         .addSubcommand(subcommand =>
             subcommand
                 .setName('default')
-                .setDescription('Shows the status of the Minecraft server'))
+                .setDescription('Shows the status of the Minecraft server')
+                .addStringOption(option =>
+                    option.setName('option')
+                        .setDescription('Extra options')
+                        .addChoices(
+                            { name: 'playerlist', value: 'list' },
+                            { name: 'modlist', value: 'modlist' },
+                        )),
+        )
         .addSubcommand(subcommand =>
             subcommand
                 .setName('server')
