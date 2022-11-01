@@ -1,10 +1,12 @@
-// const { interval } = require('./config.json');
+const updateBot = require('../functions/updateBot.js');
+const { interval } = require('../config.json');
 
 module.exports = {
     name: 'ready',
     once: true,
-    execute(client) {
+    async execute(client) {
+        await updateBot(client);
         console.log(`Ready! Logged in as ${client.user.tag}`);
-        // TODO: updateBot(); setInterval(updateBot, interval);
+        setInterval(updateBot, interval, client);
     },
 };
