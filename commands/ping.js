@@ -102,7 +102,7 @@ module.exports = {
                                 ` ${data.modinfo.modList[i].version}`;
 
                             if (msg.length + modinfo.length > 2000) {
-                                await interaction.editReply({
+                                await interaction.followUp({
                                     content: msg,
                                 });
                                 msg = modinfo;
@@ -121,7 +121,7 @@ module.exports = {
                     msg = `${data.players.online}/${data.players.max} ` +
                         `connected | ${data.version.name} ${msg}`;
             }
-            return await interaction.editReply({
+            return await interaction.followUp({
                 content: msg,
             });
         }
