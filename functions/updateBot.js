@@ -3,11 +3,13 @@ const https = require('https');
 const { mcType, mcIP, mcPort } = require('../config.json');
 
 module.exports = async function updateBot(client) {
+    // ping the Minecraft server
     await mcHermes({
         type: mcType,
         server: mcIP,
         port: mcPort,
     })
+        // log errors, but process the data anyway
         .catch(console.error)
         .then(async (data) => {
             await ProcessData(data);
@@ -22,16 +24,19 @@ module.exports = async function updateBot(client) {
                         .then(console.log('New avatar set!'))
                         .catch(console.error);
                 }
-            });
+            })
+            .catch(console.error);
 
         function getBotAvatar() {
             return new Promise((resolve, reject) => {
+                // construct URL based on the Minecraft server's icon
                 const avatarURL = client.user.displayAvatarURL({ extension: 'png', forceStatic: true });
 
                 if (!avatarURL) {
                     resolve(null);
                 }
 
+                // get bot's avatar using URL
                 https.get(avatarURL, (res) => {
                     const data = [];
 
@@ -51,6 +56,7 @@ module.exports = async function updateBot(client) {
     }
 
     async function UpdateStatus(activity, status) {
+        // If no current status
         if (!client.user.presence.activities[0]) {
             await client.user.setPresence({ activities: [{ name: activity }], status: status });
             console.log(`OldStatus: ${null}\tNewStatus: ${activity}, ${status}`);
@@ -63,6 +69,7 @@ module.exports = async function updateBot(client) {
         const diffActivity = activity !== cActivity;
         const diffStatus = status !== cStatus;
 
+        // if current status is different
         if (diffActivity || diffStatus) {
             await client.user.setPresence({ activities: [{ name: activity }], status: status });
             console.log(`OldStatus: ${cActivity}, ${cStatus}\tNewStatus: ${activity}, ${status}`);
