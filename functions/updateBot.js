@@ -30,7 +30,7 @@ module.exports = async function updateBot(client) {
         function getBotAvatar() {
             return new Promise((resolve, reject) => {
                 // construct URL based on the Minecraft server's icon
-                const avatarURL = client.user.displayAvatarURL({ extension: 'png', forceStatic: true });
+                const avatarURL = client.user.displayAvatarURL({ extension: avatar.split('/', 2)[1].split(';', 1)[0], forceStatic: true });
 
                 if (!avatarURL) {
                     resolve(null);
