@@ -12,11 +12,11 @@ module.exports = async function updateBot(client) {
         // log errors, but process the data anyway
         .catch(console.error)
         .then(async (data) => {
-            await ProcessData(data);
+            await processData(data);
         });
     return;
 
-    async function UpdateAvatar(avatar) {
+    async function updateAvatar(avatar) {
         getBotAvatar()
             .then(async oldAvatar => {
                 if (avatar !== oldAvatar) {
@@ -56,7 +56,7 @@ module.exports = async function updateBot(client) {
         }
     }
 
-    async function UpdateStatus(activity, status) {
+    async function updateStatus(activity, status) {
         // If no current status
         if (!client.user.presence.activities[0]) {
             await client.user.setPresence({ activities: [{ name: activity }], status: status });
@@ -78,16 +78,16 @@ module.exports = async function updateBot(client) {
         return;
     }
 
-    async function ProcessData(data) {
+    async function processData(data) {
         if (!data) {
             // If the server is unreachable (we assume offline)
-            await UpdateStatus('Server offline', 'dnd');
+            await updateStatus('Server offline', 'dnd');
             return;
         }
 
         if (!data.players) {
             // If the server is currently booting
-            await UpdateStatus('Server booting...', 'idle');
+            await updateStatus('Server booting...', 'idle');
             return;
         }
 
@@ -99,10 +99,10 @@ module.exports = async function updateBot(client) {
         } else {
             activity += data.version.name + ' Modded';
         }
-        await UpdateStatus(activity, 'online');
+        await updateStatus(activity, 'online');
 
         // Update the bot's avatar with the server's icon
-        await UpdateAvatar(data.favicon?.replace(/\r?\n|\r/g, '') ?? null);
+        await updateAvatar(data.favicon?.replace(/\r?\n|\r/g, '') ?? null);
 
         return;
     }
