@@ -29,8 +29,8 @@ module.exports = {
 
         if (interaction.client.commands.cooldowns.has(command.name)) {
             await interaction.reply({
-                content: `You must wait ${command.cooldown / 1000}
-                seconds before executing this command again!`,
+                content: 'Be patient! This command has a ' +
+                `${command.cooldown / 1000} seconds cooldown!`,
                 ephemeral: true,
             });
             return;
