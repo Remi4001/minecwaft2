@@ -32,7 +32,7 @@ module.exports = async function updateBot(client) {
                 // construct URL based on the Minecraft server's icon
                 const avatarURL = client.user.displayAvatarURL({ extension: 'png', forceStatic: true });
 
-                if (avatarURL?.includes('embed') ?? true) {
+                if (avatarURL?.includes('/embed/') ?? true) {
                     resolve(null);
                     return;
                 }
