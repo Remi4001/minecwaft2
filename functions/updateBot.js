@@ -19,7 +19,7 @@ module.exports = async function updateBot(client) {
     async function UpdateAvatar(avatar) {
         getBotAvatar()
             .then(async oldAvatar => {
-                if (avatar && avatar !== oldAvatar) {
+                if (avatar !== oldAvatar) {
                     await client.user.setAvatar(avatar)
                         .then(console.log('New avatar set!'))
                         .catch(console.error);
@@ -30,10 +30,11 @@ module.exports = async function updateBot(client) {
         function getBotAvatar() {
             return new Promise((resolve, reject) => {
                 // construct URL based on the Minecraft server's icon
-                const avatarURL = client.user.displayAvatarURL({ extension: avatar.split('/', 2)[1].split(';', 1)[0], forceStatic: true });
+                const avatarURL = client.user.displayAvatarURL({ extension: 'png', forceStatic: true });
 
-                if (!avatarURL) {
+                if (avatarURL?.includes('embed') ?? true) {
                     resolve(null);
+                    return;
                 }
 
                 // get bot's avatar using URL
@@ -101,7 +102,7 @@ module.exports = async function updateBot(client) {
         await UpdateStatus(activity, 'online');
 
         // Update the bot's avatar with the server's icon
-        await UpdateAvatar(data?.favicon.replace(/\r?\n|\r/g, ''));
+        await UpdateAvatar(data.favicon?.replace(/\r?\n|\r/g, '') ?? null);
 
         return;
     }
