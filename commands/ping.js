@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const mcHermes = require('mc-hermes');
-const { mcType, mcIP, mcPort } = require('../config.json');
+const { type, ip, port } = require('../config.json').server;
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -47,9 +47,9 @@ module.exports = {
         // TODO: locale
         if (interaction.options.getSubcommand() === 'default') {
             mcHermes({
-                type: mcType,
-                server: mcIP,
-                port: mcPort,
+                type: type,
+                server: ip,
+                port: port,
             })
                 .catch(console.error)
                 .then(async (data) => await reply(data));

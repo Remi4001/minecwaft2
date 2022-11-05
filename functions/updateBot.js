@@ -1,15 +1,15 @@
 const mcHermes = require('mc-hermes');
 const updateAvatar = require('./updateAvatar.js');
 const updateStatus = require('./updateStatus.js');
-const { mcType, mcIP, mcPort } = require('../config.json');
+const { type, ip, port } = require('../config.json').server;
 
 module.exports = {
     updateBot(client) {
         // ping the Minecraft server
         mcHermes({
-            type: mcType,
-            server: mcIP,
-            port: mcPort,
+            type: type,
+            server: ip,
+            port: port,
         })
             // log errors, but process the data anyway
             .catch(console.error)
