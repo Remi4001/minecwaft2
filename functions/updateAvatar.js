@@ -23,22 +23,24 @@ module.exports = function updateAvatar(client, avatar, force = false) {
         }
 
         // get bot's avatar using URL
-        https.get(avatarURL, (res) => {
-            const data = [];
+        return new Promise((resolve, reject) => {
+            https.get(avatarURL, (res) => {
+                const data = [];
 
-            res
-                .on('data', (chunk) => {
-                    data.push(chunk);
-                })
-                .on('end', () => {
-                    return Promise.resolve('data:' +
-                        res.headers['content-type'] +
-                        ';base64,' +
-                        new Buffer.concat(data).toString('base64'));
-                })
-                .on('error', (error) => {
-                    return Promise.reject(error);
-                });
+                res
+                    .on('data', (chunk) => {
+                        data.push(chunk);
+                    })
+                    .on('end', () => {
+                        resolve('data:' +
+                            res.headers['content-type'] +
+                            ';base64,' +
+                            new Buffer.concat(data).toString('base64'));
+                    })
+                    .on('error', (error) => {
+                        reject(error);
+                    });
+            });
         });
     }
 };
