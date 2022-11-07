@@ -39,7 +39,7 @@ module.exports = {
                                     avatar,
                                     true,
                                 );
-                                await interaction.editReply({
+                                return await interaction.editReply({
                                     content: 'New avatar set!',
                                     ephemeral: true,
                                 });
