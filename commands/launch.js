@@ -43,7 +43,7 @@ module.exports = {
                             content: `Server \`${serverName}\` already running!`,
                         });
                     }
-                    exec(path.join(folder, script))
+                    exec(path.join(folder, script), { timeout: 5000 })
                         .then((async ({ stdout, stderr }) => {
                             console.log(`stdout: '${stdout}'`);
                             console.error(`stderr: '${stderr}'`);
