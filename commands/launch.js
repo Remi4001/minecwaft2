@@ -5,35 +5,32 @@ const path = require('node:path');
 const exec = util.promisify(require('child_process').exec);
 const { launch } = require('../config.json');
 
-
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('launch')
         .setDescription('Launch a Minecraft server')
-        .addStringOption(option => {
+        .addStringOption(option =>
             option.setName('server')
                 .setDescription('The server to launch')
-                .addChoices(
-                    launch_scripts(),
-                );
-        }),
+                .setRequired(true)
+                .setAutocomplete(true),
+        ),
     logUser: true,
     cooldown: 10000,
     async execute(interaction) {
-        await interaction.deferReply();
-
-        if (process.platform !== 'win32') {
-            // TODO: Add Linux support
-            return await interaction.editReply({
-                content: 'Command disabled for OS different than Windows',
+        const serverName = interaction.options.getString('server');
+        if (!Object.prototype.hasOwnProperty.call(launch, serverName)) {
+            return await interaction.reply({
+                content: `No server matching name \`${serverName}\` found!`,
             });
         }
 
-        const serverName = interaction.options.getString('server');
         const launchPath = path.join(path.dirname(__dirname), 'launch_scripts');
+
+        await interaction.deferReply();
         launch_server(launch[serverName].port, launchPath, launch[serverName].script);
 
-        async function launch_server(port, folder, bat) {
+        async function launch_server(port, folder, script) {
             mcHermes({
                 type: 'pc',
                 server: 'localhost',
@@ -43,27 +40,27 @@ module.exports = {
                 .then(async (data) => {
                     if (data) {
                         return await interaction.editReply({
-                            content: `Server ${serverName} already running!`,
+                            content: `Server \`${serverName}\` already running!`,
                         });
                     } else {
-                        exec(`start /D "${folder}" cmd /c "${bat}"`)
+                        exec(path.join(folder, script))
                             .then((async ({ stdout, stderr }) => {
                                 console.log(`stdout: '${stdout}'`);
                                 console.error(`stderr: '${stderr}'`);
                                 await interaction.editReply({
-                                    content: `Starting ${serverName} server...`,
+                                    content: `Starting \`${serverName}\` server...`,
                                 });
                             }));
                     }
                 });
         }
     },
+    async autocomplete(interaction) {
+        const focusedValue = interaction.options.getFocused();
+        const choices = Object.keys(launch);
+        const filtered = choices.filter(choice => choice.startsWith(focusedValue));
+        await interaction.respond(
+            filtered.map(choice => ({ name: choice, value: choice })),
+        );
+    },
 };
-
-function launch_scripts() {
-    let choices = {};
-    for (const name in launch) {
-        choices += { name: name, value: name };
-    }
-    return choices;
-}
