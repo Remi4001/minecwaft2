@@ -1,0 +1,22 @@
+{
+    "token": "Put_your_token_here",
+    "clientId": "Your_bot's_id",
+    "guildId": "Your_server's_id",
+    "ownerId": "Your_id",
+    "server": {
+        "type": "'pc' for java or 'pe' for bedrock",
+        "ip": "Your_server's_ip",
+        "port": 25565
+    },
+    "launch": {
+        "vanilla": {
+            "script": "example.bat",
+            "port": 25565
+        },
+        "modded": {
+            "script": "example2.sh",
+            "port": 25566
+        }
+    },
+    "interval": 10000
+}
