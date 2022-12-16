@@ -42,16 +42,21 @@ module.exports = {
                         return await interaction.editReply({
                             content: `Server \`${serverName}\` already running!`,
                         });
-                    } else {
-                        exec(path.join(folder, script))
-                            .then((async ({ stdout, stderr }) => {
-                                console.log(`stdout: '${stdout}'`);
-                                console.error(`stderr: '${stderr}'`);
-                                await interaction.editReply({
-                                    content: `Starting \`${serverName}\` server...`,
-                                });
-                            }));
                     }
+                    exec(path.join(folder, script))
+                        .then((async ({ stdout, stderr }) => {
+                            console.log(`stdout: '${stdout}'`);
+                            console.error(`stderr: '${stderr}'`);
+                            await interaction.editReply({
+                                content: `Starting \`${serverName}\` server...`,
+                            });
+                        }))
+                        .catch(async (error) => {
+                            console.error(error);
+                            await interaction.editReply({
+                                content: `Error while starting \`${serverName}\` server!`,
+                            });
+                        });
                 });
         }
     },
