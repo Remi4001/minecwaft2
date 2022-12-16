@@ -34,9 +34,7 @@ module.exports = {
                 ephemeral: true,
             });
             return;
-        }
-
-        if (command.cooldown) {
+        } else if (command.cooldown) {
             interaction.client.commands.cooldowns.add(command.name);
             setTimeout(() => {
                 interaction.client.commands.cooldowns.delete(command.name);
