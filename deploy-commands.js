@@ -24,7 +24,7 @@ const rest = new REST({ version: '10' }).setToken(token);
         const data = await rest.put(
             // For deploying commands on a specific guild
             // Routes.applicationGuildCommands(clientId, guildId),
-            Routes.applicationCommand(clientId),
+            Routes.applicationCommands(clientId),
             { body: commands },
         );
 
