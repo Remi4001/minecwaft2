@@ -3,7 +3,7 @@ const https = require('https');
 module.exports = function updateAvatar(client, avatar, force = false) {
     getBotAvatar()
         .then(async oldAvatar => {
-            if (avatar !== oldAvatar || force) {
+            if ((avatar !== oldAvatar && avatar) || force) {
                 client.user.setAvatar(avatar)
                     .then(console.log('New avatar set!'))
                     .catch(console.error);
