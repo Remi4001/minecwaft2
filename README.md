@@ -1,6 +1,6 @@
 # minecwaft2
 
-Discord bot with multiples capabilities related to Minecraft servers
+Discord bot with multiples capabilities related to Minecraft servers, and that should work on any operating system that supports node.js
 
 Created following the guides from https://discordjs.guide/. You definitely should check this out if you have trouble setting up the bot.
 
