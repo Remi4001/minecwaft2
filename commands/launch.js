@@ -27,11 +27,12 @@ module.exports = {
 
         await interaction.deferReply();
         const launchPath = path.join(path.dirname(__dirname), 'launch_scripts');
+        const { type, ip, port, script } = launch[serverName];
 
         mcHermes({
-            type: launch[serverName].type,
-            server: launch[serverName].ip,
-            port: launch[serverName].port,
+            type: type,
+            server: ip,
+            port: port,
         })
             .catch(console.error)
             .then(async (data) => {
@@ -40,7 +41,7 @@ module.exports = {
                         content: `Server \`${serverName}\` already running!`,
                     });
                 }
-                exec(path.join(launchPath, launch[serverName].script), { timeout: 5000 })
+                exec(path.join(launchPath, script), { timeout: 5000 })
                     .then((async ({ stdout, stderr }) => {
                         console.log(`stdout: '${stdout}'`);
                         console.error(`stderr: '${stderr}'`);
