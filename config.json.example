@@ -11,11 +11,15 @@
     "launch": {
         "vanilla": {
             "script": "example.bat",
-            "port": 25565
+            "type": "pe",
+            "ip": "localhost",
+            "port": 19132
         },
         "modded": {
             "script": "example2.sh",
-            "port": 25566
+            "type": "pc",
+            "ip": "123.456.7.890",
+            "port": 25565
         }
     },
     "interval": 10000

@@ -25,40 +25,36 @@ module.exports = {
             });
         }
 
+        await interaction.deferReply();
         const launchPath = path.join(path.dirname(__dirname), 'launch_scripts');
 
-        await interaction.deferReply();
-        launch_server(launch[serverName].port, launchPath, launch[serverName].script);
-
-        async function launch_server(port, folder, script) {
-            mcHermes({
-                type: 'pc',
-                server: 'localhost',
-                port: port,
-            })
-                .catch(console.error)
-                .then(async (data) => {
-                    if (data) {
-                        return await interaction.editReply({
-                            content: `Server \`${serverName}\` already running!`,
+        mcHermes({
+            type: launch[serverName].type,
+            server: launch[serverName].ip,
+            port: launch[serverName].port,
+        })
+            .catch(console.error)
+            .then(async (data) => {
+                if (data) {
+                    return await interaction.editReply({
+                        content: `Server \`${serverName}\` already running!`,
+                    });
+                }
+                exec(path.join(launchPath, launch[serverName].script), { timeout: 5000 })
+                    .then((async ({ stdout, stderr }) => {
+                        console.log(`stdout: '${stdout}'`);
+                        console.error(`stderr: '${stderr}'`);
+                        await interaction.editReply({
+                            content: `Starting \`${serverName}\` server...`,
                         });
-                    }
-                    exec(path.join(folder, script), { timeout: 5000 })
-                        .then((async ({ stdout, stderr }) => {
-                            console.log(`stdout: '${stdout}'`);
-                            console.error(`stderr: '${stderr}'`);
-                            await interaction.editReply({
-                                content: `Starting \`${serverName}\` server...`,
-                            });
-                        }))
-                        .catch(async (error) => {
-                            console.error(error);
-                            await interaction.editReply({
-                                content: `Error while starting \`${serverName}\` server!`,
-                            });
+                    }))
+                    .catch(async (error) => {
+                        console.error(error);
+                        await interaction.editReply({
+                            content: `Error while starting \`${serverName}\` server!`,
                         });
-                });
-        }
+                    });
+            });
     },
     async autocomplete(interaction) {
         const focusedValue = interaction.options.getFocused();
