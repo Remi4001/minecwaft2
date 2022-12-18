@@ -7,9 +7,11 @@ const commands = [];
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 // Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
-for (const file of commandFiles) {
-    const command = require(`./commands/${file}`);
-    commands.push(command.data.toJSON());
+if (process.argv[2] !== 'delete') {
+    for (const file of commandFiles) {
+        const command = require(`./commands/${file}`);
+        commands.push(command.data.toJSON());
+    }
 }
 
 // Construct and prepare an instance of the REST module
@@ -24,6 +26,7 @@ const rest = new REST({ version: '10' }).setToken(token);
         const data = await rest.put(
             // For deploying commands locally on a specific guild
             // Routes.applicationGuildCommands(clientId, guildId),
+            // For deploying commands globally
             Routes.applicationCommands(clientId),
             { body: commands },
         );
