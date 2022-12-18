@@ -8,16 +8,33 @@ const { type, ip, port } = require('../config.json').server;
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('update')
+        .setNameLocalizations({
+            fr: 'maj',
+        })
         .setDescription('Updates the bot\'s appearance on Discord')
+        .setDescriptionLocalizations({
+            fr: 'Met à jour l\'apparence du bot sur Discord',
+        })
         .addSubcommand(subcommand =>
             subcommand
                 .setName('avatar')
-                .setDescription('Manually changes the bot\'s avatar to the ' +
-                    'Minecraft server\'s icon'))
+                .setNameLocalizations({
+                    fr: 'avatar',
+                })
+                .setDescription('Manually changes the bot\'s avatar to the Minecraft server\'s icon')
+                .setDescriptionLocalizations({
+                    fr: 'Remplace manuellement l\'avatar du bot par l\'ic\u00f4ne du serveur Minecraft',
+                }))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('status')
-                .setDescription('Manually updates the bot\'s status')),
+                .setNameLocalizations({
+                    fr: 'statut',
+                })
+                .setDescription('Manually updates the bot\'s status on Discord')
+                .setDescriptionLocalizations({
+                    fr: 'Met à jour manuellement le statut du bot sur Discord',
+                })),
     cooldown: 60000,
     async execute(interaction) {
         await interaction.deferReply({ ephemeral: true });

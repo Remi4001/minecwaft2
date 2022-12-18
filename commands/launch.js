@@ -8,10 +8,23 @@ const { launch } = require('../config.json');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('launch')
+        .setNameLocalizations({
+            fr: 'lancer',
+        })
         .setDescription('Launch a Minecraft server')
+        .setDescriptionLocalizations({
+            fr: 'Lancer un serveur Minecraft',
+        })
         .addStringOption(option =>
-            option.setName('server')
+            option
+                .setName('server')
+                .setNameLocalizations({
+                    fr: 'serveur',
+                })
                 .setDescription('The server to launch')
+                .setDescriptionLocalizations({
+                    fr: 'Le serveur à lancer',
+                })
                 .setRequired(true)
                 .setAutocomplete(true),
         ),

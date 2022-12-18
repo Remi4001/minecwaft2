@@ -5,41 +5,111 @@ const { type, ip, port } = require('../config.json').server;
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('ping')
+        .setNameLocalizations({
+            fr: 'ping',
+        })
         .setDescription('Shows the status of a Minecraft server')
+        .setDescriptionLocalizations({
+            fr: 'Affiche le status d\'un serveur Minecraft',
+        })
         .addSubcommand(subcommand =>
             subcommand
                 .setName('default')
-                .setDescription('Shows the status of the Minecraft server')
+                .setNameLocalizations({
+                    fr: 'd\u00e9faut',
+                })
+                .setDescription('Shows the status of the default Minecraft server')
+                .setDescriptionLocalizations({
+                    fr: 'Affiche le statut du serveur Minecraft par d\u00e9faut',
+                })
                 .addStringOption(option =>
-                    option.setName('option')
+                    option
+                        .setName('option')
+                        .setNameLocalizations({
+                            fr: 'option',
+                        })
                         .setDescription('Extra options')
+                        .setDescriptionLocalizations({
+                            fr: 'Options extra',
+                        })
                         .addChoices(
-                            { name: 'playerlist', value: 'list' },
-                            { name: 'modlist', value: 'modlist' },
+                            {
+                                name: 'playerlist',
+                                name_localizations: {
+                                    fr: 'Liste des joueurs',
+                                },
+                                value: 'list',
+                            },
+                            {
+                                name: 'modlist',
+                                name_localizations: {
+                                    fr: 'Liste des mods',
+                                },
+                                value: 'modlist',
+                            },
                         )),
         )
         .addSubcommand(subcommand =>
             subcommand
                 .setName('server')
+                .setNameLocalizations({
+                    fr: 'serveur',
+                })
                 .setDescription('Shows the status of a specified Minecraft server')
+                .setDescriptionLocalizations({
+                    fr: 'Affiche le statut du serveur Minecraft sp\u00e9cifi\u00e9',
+                })
                 .addStringOption(option =>
-                    option.setName('type')
+                    option
+                        .setName('type')
+                        .setNameLocalizations({
+                            fr: 'type',
+                        })
                         .setDescription('The type of Minecraft server')
+                        .setDescriptionLocalizations({
+                            fr: 'Le type du serveur Minecraft',
+                        })
                         .setRequired(true)
                         .addChoices(
                             { name: 'Java', value: 'pc' },
                             { name: 'Bedrock', value: 'pe' },
                         ))
                 .addStringOption(option =>
-                    option.setName('adress')
+                    option
+                        .setName('adress')
+                        .setNameLocalizations({
+                            fr: 'adresse',
+                        })
                         .setDescription('The adress of the server <ip:port>')
+                        .setDescriptionLocalizations({
+                            fr: 'L\'adresse du serveur <ip:port>',
+                        })
                         .setRequired(true))
                 .addStringOption(option =>
-                    option.setName('option')
+                    option
+                        .setName('option')
+                        .setNameLocalizations({
+                            fr: 'option',
+                        })
                         .setDescription('Extra options')
+                        .setDescriptionLocalizations({
+                            fr: 'Options extra',
+                        })
                         .addChoices(
-                            { name: 'playerlist', value: 'list' },
-                            { name: 'modlist', value: 'modlist' },
+                            {
+                                name: 'playerlist',
+                                name_localizations: {
+                                    fr: 'Liste des joueurs',
+                                },
+                                value: 'list',
+                            },
+                            {
+                                name: 'modlist',
+                                name_localizations: {
+                                    fr: 'Liste des mods',
+                                },
+                                value: 'modlist',
+                            },
                         )),
         ),
     async execute(interaction) {
