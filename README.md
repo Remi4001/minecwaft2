@@ -61,6 +61,10 @@ Make sure you have [node.js](https://nodejs.org/) installed first, tested with v
 4. Deploy the slash commands
     ```sh
     node deploy-commands.js
+    ```     
+    If you need to remove all slash commands use this:
+    ```sh
+    node deploy-commands.js delete
     ```
 5. Start the bot and enjoy!
     ```sh
