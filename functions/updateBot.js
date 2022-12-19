@@ -12,7 +12,11 @@ module.exports = {
             port: port,
         })
             // log errors, but process the data anyway
-            .catch(console.error)
+            .catch(error => {
+                if (!error.message.includes('Ping timed out')) {
+                    console.error(error);
+                }
+            })
             .then((data) => {
                 // Update the bot's status
                 module.exports.parseStatus(data)
