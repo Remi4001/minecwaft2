@@ -3,6 +3,8 @@ const updateAvatar = require('./updateAvatar.js');
 const updateStatus = require('./updateStatus.js');
 const { type, ip, port } = require('../config.json').server;
 
+let lastError;
+
 module.exports = {
     updateBot(client) {
         // ping the Minecraft server
@@ -13,8 +15,9 @@ module.exports = {
         })
             // log errors, but process the data anyway
             .catch(error => {
-                if (!error.message.includes('Ping timed out')) {
+                if (error.toString() !== lastError) {
                     console.error(error);
+		    lastError = error.toString();
                 }
             })
             .then((data) => {
