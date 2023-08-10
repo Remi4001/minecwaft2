@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('discord.js');
 const util = require('util');
 const mcHermes = require('mc-hermes');
 const path = require('node:path');
-const exec = util.promisify(require('child_process').exec);
+const execFile = util.promisify(require('child_process').execFile);
 const { launch } = require('../config.json');
 
 module.exports = {
@@ -54,7 +54,7 @@ module.exports = {
                         content: `Server \`${serverName}\` already running!`,
                     });
                 }
-                exec(path.join(launchPath, script), { timeout: 5000 })
+                execFile(path.join(launchPath, script), { timeout: 5000 })
                     .then((async ({ stdout, stderr }) => {
                         console.log(`stdout: '${stdout}'`);
                         console.error(`stderr: '${stderr}'`);
