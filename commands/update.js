@@ -48,7 +48,7 @@ module.exports = {
             .then(async data => {
                 switch (interaction.options.getSubcommand()) {
                     case 'avatar':
-                        // Update the bot's avatar with the server's icon
+                    // Update the bot's avatar with the server's icon
                         parseAvatar(data)
                             .then(async (avatar) => {
                                 updateAvatar(
@@ -63,7 +63,7 @@ module.exports = {
                             });
                         break;
                     case 'status':
-                        // Update the bot's status
+                    // Update the bot's status
                         parseStatus(data)
                             .then(async (status) => {
                                 updateStatus(

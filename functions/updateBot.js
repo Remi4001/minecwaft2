@@ -17,7 +17,7 @@ module.exports = {
             .catch(error => {
                 if (error.toString() !== lastError) {
                     console.error(error);
-		    lastError = error.toString();
+                    lastError = error.toString();
                 }
             })
             .then((data) => {
