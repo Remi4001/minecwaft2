@@ -103,8 +103,5 @@ dist
 # TernJS port file
 .tern-port
 
-# ESLint rules
-.eslintrc.json
-
 # Bot config
 config.json
