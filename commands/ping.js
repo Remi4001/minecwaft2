@@ -115,8 +115,8 @@ module.exports = {
     /**
      * @param {import('discord.js').ChatInputCommandInteraction} interaction Slash command from Discord user
      */
-    execute(interaction) {
-        interaction.deferReply();
+    async execute(interaction) {
+        await interaction.deferReply();
         // TODO: locale
         if (interaction.options.getSubcommand() === 'default') {
             mcHermes({

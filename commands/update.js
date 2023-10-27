@@ -39,8 +39,8 @@ module.exports = {
     /**
      * @param {import('discord.js').ChatInputCommandInteraction} interaction Slash command from Discord user
      */
-    execute(interaction) {
-        interaction.deferReply({ ephemeral: true });
+    async execute(interaction) {
+        await interaction.deferReply({ ephemeral: true });
 
         mcHermes({
             type: type,

@@ -33,7 +33,7 @@ module.exports = {
     /**
      * @param {import('discord.js').ChatInputCommandInteraction} interaction Slash command from Discord user
      */
-    execute(interaction) {
+    async execute(interaction) {
         const serverName = interaction.options.getString('server');
         if (!Object.prototype.hasOwnProperty.call(launch, serverName)) {
             return interaction.reply({
@@ -41,7 +41,7 @@ module.exports = {
             });
         }
 
-        interaction.deferReply();
+        await interaction.deferReply();
         const launchPath = path.join(path.dirname(__dirname), 'launch_scripts');
         const { type, ip, port, script } = launch[serverName];
 
