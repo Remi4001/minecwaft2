@@ -1,7 +1,7 @@
-module.exports = async function updateStatus(client, activity, status, force = false) {
+module.exports = function updateStatus(client, activity, status, force = false) {
     // If no current status
     if (!client.user.presence.activities[0] || force) {
-        await client.user.setPresence({ activities: [{ name: activity }], status: status });
+        client.user.setPresence({ activities: [{ name: activity }], status: status });
         console.log(`OldStatus: ${null}\tNewStatus: ${activity}, ${status}`);
         return;
     }
@@ -14,8 +14,7 @@ module.exports = async function updateStatus(client, activity, status, force = f
 
     // if current status is different
     if (diffActivity || diffStatus) {
-        await client.user.setPresence({ activities: [{ name: activity }], status: status });
+        client.user.setPresence({ activities: [{ name: activity }], status: status });
         console.log(`OldStatus: ${cActivity}, ${cStatus}\tNewStatus: ${activity}, ${status}`);
     }
-    return;
 };
