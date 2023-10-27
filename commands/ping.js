@@ -125,7 +125,7 @@ module.exports = {
                 port: port,
             })
                 .catch(console.error)
-                .then((data) => reply(data));
+                .then((data) => reply(interaction, data));
         } else if (interaction.options.getSubcommand() === 'server') {
             const adress = interaction.options.getString('adress').split(':', 2);
 
@@ -135,7 +135,7 @@ module.exports = {
                 port: adress[1],
             })
                 .catch(console.error)
-                .then((data) => reply(data));
+                .then((data) => reply(interaction, data));
         }
     },
 };
