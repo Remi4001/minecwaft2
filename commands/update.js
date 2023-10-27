@@ -37,7 +37,7 @@ module.exports = {
                 })),
     cooldown: 60000,
     /**
-     * @param {import('discord.js').CommandInteraction} interaction Slash command from Discord user
+     * @param {import('discord.js').ChatInputCommandInteraction} interaction Slash command from Discord user
      */
     execute(interaction) {
         interaction.deferReply({ ephemeral: true });

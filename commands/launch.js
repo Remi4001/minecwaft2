@@ -31,7 +31,7 @@ module.exports = {
     logUser: true,
     cooldown: 10000,
     /**
-     * @param {import('discord.js').CommandInteraction} interaction Slash command from Discord user
+     * @param {import('discord.js').ChatInputCommandInteraction} interaction Slash command from Discord user
      */
     execute(interaction) {
         const serverName = interaction.options.getString('server');
@@ -74,7 +74,7 @@ module.exports = {
             });
     },
     /**
-     * @param {import('discord.js').CommandInteraction} interaction Slash command from Discord user
+     * @param {import('discord.js').AutocompleteInteraction} interaction Slash command from Discord user
      */
     async autocomplete(interaction) {
         const focusedValue = interaction.options.getFocused();

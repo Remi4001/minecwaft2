@@ -2,6 +2,9 @@ const { ownerId } = require('../config.json');
 
 module.exports = {
     name: 'interactionCreate',
+    /**
+     * @param {import('discord.js').Interaction} interaction Slash command from Discord user
+     */
     async execute(interaction) {
         if (interaction.isChatInputCommand()) {
             const command = interaction.client.commands.get(
