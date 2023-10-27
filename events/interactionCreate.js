@@ -42,7 +42,7 @@ module.exports = {
             }
 
             command.execute(interaction)
-                ?.catch((error) => {
+                .catch((error) => {
                     console.error(error);
                     interaction.reply({
                         content: 'There was an error while executing this command!',
@@ -58,7 +58,7 @@ module.exports = {
             }
 
             command.autocomplete(interaction)
-                ?.catch(console.error);
+                .catch(console.error);
         }
     },
 };
