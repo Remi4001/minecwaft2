@@ -115,8 +115,8 @@ module.exports = {
     /**
      * @param {import('discord.js').CommandInteraction} interaction Slash command from Discord user
      */
-    async execute(interaction) {
-        await interaction.deferReply();
+    execute(interaction) {
+        interaction.deferReply();
         // TODO: locale
         if (interaction.options.getSubcommand() === 'default') {
             mcHermes({
@@ -125,7 +125,7 @@ module.exports = {
                 port: port,
             })
                 .catch(console.error)
-                .then(async (data) => await reply(data));
+                .then((data) => reply(data));
         } else if (interaction.options.getSubcommand() === 'server') {
             const adress = interaction.options.getString('adress').split(':', 2);
 
@@ -135,68 +135,69 @@ module.exports = {
                 port: adress[1],
             })
                 .catch(console.error)
-                .then(async (data) => await reply(data));
-        }
-
-        async function reply(data) {
-            if (!data) {
-                return await interaction.editReply({
-                    content: 'Impossible to reach the server!',
-                });
-            }
-
-            if (!data.players) {
-                return await interaction.editReply({
-                    content: 'Server starting...',
-                });
-            }
-
-            const option = interaction.options.getString('option');
-            let msg = new String;
-
-            switch (option) {
-                case 'list':
-                    if (!data.players.sample) {
-                        msg = 'No players online';
-                    } else if (data.players.sample.length) {
-                        msg = 'Players connected:';
-                        for (let i = 0; i < data.players.sample.length; i++) {
-                            msg += `\n- ${data.players.sample[i].name}`;
-                        }
-                    } else {
-                        msg = 'Player list inaccessible';
-                    }
-                    break;
-                case 'modlist':
-                    if (data.modinfo) {
-                        msg = 'Mods present on the server:';
-                        for (let i = 0; i < data.modinfo.modList.length; i++) {
-                            const modinfo = `- ${data.modinfo.modList[i].modid}` +
-                                ` ${data.modinfo.modList[i].version}`;
-
-                            if (msg.length + modinfo.length > 2000) {
-                                await interaction.followUp({
-                                    content: msg,
-                                });
-                                msg = modinfo;
-                            } else {
-                                msg += '\n' + modinfo;
-                            }
-                        }
-                    } else {
-                        msg = 'No mods detected on the server';
-                    }
-                    break;
-                default:
-                    if (data.modinfo) msg = 'Modded';
-                    else msg = 'Vanilla';
-
-                    msg = `${data.players.online}/${data.players.max} ` +
-                        `connected | ${data.version.name} ${msg}`;
-            }
-            return await interaction.followUp({
-                content: msg,
-            });
+                .then((data) => reply(data));
         }
     },
 };
+
+/**
+ * @param {import('discord.js').CommandInteraction} interaction Slash command from Discord user
+ * @param data Response from Minecraft server
+ */
+async function reply(interaction, data) {
+    if (!data) {
+        return interaction.editReply({
+            content: 'Impossible to reach the server!',
+        });
+    }
+
+    if (!data.players) {
+        return interaction.editReply({
+            content: 'Server starting...',
+        });
+    }
+
+    const option = interaction.options.getString('option');
+    let msg = new String;
+
+    switch (option) {
+        case 'list':
+            if (!data.players.sample) {
+                msg = 'No players online';
+            } else if (data.players.sample.length) {
+                msg = 'Players connected:';
+                for (let i = 0; i < data.players.sample.length; i++) {
+                    msg += `\n- ${data.players.sample[i].name}`;
+                }
+            } else {
+                msg = 'Player list inaccessible';
+            }
+            break;
+        case 'modlist':
+            if (data.modinfo) {
+                msg = 'Mods present on the server:';
+                for (let i = 0; i < data.modinfo.modList.length; i++) {
+                    const modinfo = `- ${data.modinfo.modList[i].modid}` +
+                        ` ${data.modinfo.modList[i].version}`;
+
+                    if (msg.length + modinfo.length > 2000) {
+                        await interaction.followUp({
+                            content: msg,
+                        });
+                        msg = modinfo;
+                    } else {
+                        msg += '\n' + modinfo;
+                    }
+                }
+            } else {
+                msg = 'No mods detected on the server';
+            }
+            break;
+        default:
+            msg = `${data.players.online}/${data.players.max} ` +
+                `connected | ${data.version.name} ${data.modinfo ? 'Modded' : 'Vanilla'}`;
+    }
+    return interaction.followUp({
+        content: msg,
+    });
+}

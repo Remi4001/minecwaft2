@@ -33,15 +33,15 @@ module.exports = {
     /**
      * @param {import('discord.js').CommandInteraction} interaction Slash command from Discord user
      */
-    async execute(interaction) {
+    execute(interaction) {
         const serverName = interaction.options.getString('server');
         if (!Object.prototype.hasOwnProperty.call(launch, serverName)) {
-            return await interaction.reply({
+            return interaction.reply({
                 content: `No server matching name \`${serverName}\` found!`,
             });
         }
 
-        await interaction.deferReply();
+        interaction.deferReply();
         const launchPath = path.join(path.dirname(__dirname), 'launch_scripts');
         const { type, ip, port, script } = launch[serverName];
 
@@ -51,28 +51,31 @@ module.exports = {
             port: port,
         })
             .catch(console.error)
-            .then(async (data) => {
+            .then((data) => {
                 if (data) {
-                    return await interaction.editReply({
+                    return interaction.editReply({
                         content: `Server \`${serverName}\` already running!`,
                     });
                 }
                 execFile(path.join(launchPath, script), { timeout: 5000 })
-                    .then((async ({ stdout, stderr }) => {
+                    .then((({ stdout, stderr }) => {
                         console.log(`stdout: '${stdout}'`);
                         console.error(`stderr: '${stderr}'`);
-                        await interaction.editReply({
+                        interaction.editReply({
                             content: `Starting \`${serverName}\` server...`,
                         });
                     }))
-                    .catch(async (error) => {
+                    .catch((error) => {
                         console.error(error);
-                        await interaction.editReply({
+                        interaction.editReply({
                             content: `Error while starting \`${serverName}\` server!`,
                         });
                     });
             });
     },
+    /**
+     * @param {import('discord.js').CommandInteraction} interaction Slash command from Discord user
+     */
     async autocomplete(interaction) {
         const focusedValue = interaction.options.getFocused();
         const choices = Object.keys(launch);
