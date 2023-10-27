@@ -36,8 +36,11 @@ module.exports = {
                     fr: 'Met à jour manuellement le statut du bot sur Discord',
                 })),
     cooldown: 60000,
-    async execute(interaction) {
-        await interaction.deferReply({ ephemeral: true });
+    /**
+     * @param {import('discord.js').CommandInteraction} interaction Slash command from Discord user
+     */
+    execute(interaction) {
+        interaction.deferReply({ ephemeral: true });
 
         mcHermes({
             type: type,
@@ -45,38 +48,31 @@ module.exports = {
             port: port,
         })
             .catch(console.error)
-            .then(async data => {
+            .then(data => {
                 switch (interaction.options.getSubcommand()) {
                     case 'avatar':
-                    // Update the bot's avatar with the server's icon
-                        parseAvatar(data)
-                            .then(async (avatar) => {
-                                updateAvatar(
-                                    interaction.client,
-                                    avatar,
-                                    true,
-                                );
-                                return await interaction.editReply({
-                                    content: 'New avatar set!',
-                                    ephemeral: true,
-                                });
-                            });
+                        // Update the bot's avatar with the server's icon
+                        updateAvatar(
+                            interaction.client,
+                            parseAvatar(data),
+                            true,
+                        );
+                        interaction.editReply({
+                            content: 'New avatar set!',
+                            ephemeral: true,
+                        });
                         break;
                     case 'status':
-                    // Update the bot's status
-                        parseStatus(data)
-                            .then(async (status) => {
-                                updateStatus(
-                                    interaction.client,
-                                    status[0],
-                                    status[1],
-                                    true,
-                                );
-                                return await interaction.editReply({
-                                    content: 'New status set!',
-                                    ephemeral: true,
-                                });
-                            });
+                        // Update the bot's status
+                        updateStatus(
+                            interaction.client,
+                            ...parseStatus(data),
+                            true,
+                        );
+                        interaction.editReply({
+                            content: 'New status set!',
+                            ephemeral: true,
+                        });
                         break;
                 }
             });

@@ -112,6 +112,9 @@ module.exports = {
                             },
                         )),
         ),
+    /**
+     * @param {import('discord.js').CommandInteraction} interaction Slash command from Discord user
+     */
     async execute(interaction) {
         await interaction.deferReply();
         // TODO: locale

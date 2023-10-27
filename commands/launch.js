@@ -30,6 +30,9 @@ module.exports = {
         ),
     logUser: true,
     cooldown: 10000,
+    /**
+     * @param {import('discord.js').CommandInteraction} interaction Slash command from Discord user
+     */
     async execute(interaction) {
         const serverName = interaction.options.getString('server');
         if (!Object.prototype.hasOwnProperty.call(launch, serverName)) {

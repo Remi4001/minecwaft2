@@ -26,16 +26,11 @@ module.exports = {
             })
             .then((data) => {
                 // Update the bot's status
-                module.exports.parseStatus(data)
-                    .then((status) =>
-                        updateStatus(client, status[0], status[1]));
+                const status = module.exports.parseStatus(data);
+                updateStatus(client, status[0], status[1]);
 
                 // Update the bot's avatar with the server's icon
-                module.exports.parseIcon(data)
-                    .then((icon) =>
-                        updateAvatar(client, icon));
-
-                return;
+                updateAvatar(client, module.exports.parseIcon(data));
             });
     },
     /**
@@ -46,12 +41,12 @@ module.exports = {
     parseStatus(data) {
         if (!data) {
             // If the server is unreachable (we assume offline)
-            return Promise.resolve(['Server offline', 'dnd']);
+            return ['Server offline', 'dnd'];
         }
 
         if (!data.players) {
             // If the server is currently booting
-            return Promise.resolve(['Server booting...', 'idle']);
+            return ['Server booting...', 'idle'];
         }
 
         let activity = data.players.online + '/' + data.players.max + ' connected ';
@@ -62,7 +57,7 @@ module.exports = {
         } else {
             activity += data.version.name + ' Modded';
         }
-        return Promise.resolve([activity, 'online']);
+        return [activity, 'online'];
     },
     /**
      * Parses the data from the Minecraft server to get the icon
@@ -70,6 +65,6 @@ module.exports = {
      * @returns {string} Image
      */
     parseIcon(data) {
-        return Promise.resolve(data?.favicon?.replace(/\r?\n|\r/g, '') ?? null);
+        return data?.favicon?.replace(/\r?\n|\r/g, '') ?? null;
     },
 };
