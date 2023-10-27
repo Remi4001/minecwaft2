@@ -6,6 +6,10 @@ const { type, ip, port } = require('../config.json').server;
 let lastError;
 
 module.exports = {
+    /**
+     * Updates the avatar and status
+     * @param {import('discord.js').Client} client Discord client
+     */
     updateBot(client) {
         // ping the Minecraft server
         mcHermes({
@@ -34,6 +38,11 @@ module.exports = {
                 return;
             });
     },
+    /**
+     * Parses the data from the Minecraft server to get the Discord bot's status
+     * @param {any} data Response from Minecraft server
+     * @returns {[string, import('discord.js').PresenceStatus]}
+     */
     parseStatus(data) {
         if (!data) {
             // If the server is unreachable (we assume offline)
@@ -55,6 +64,11 @@ module.exports = {
         }
         return Promise.resolve([activity, 'online']);
     },
+    /**
+     * Parses the data from the Minecraft server to get the icon
+     * @param {*} data Response from Minecraft server
+     * @returns {string} Image
+     */
     parseIcon(data) {
         return Promise.resolve(data?.favicon?.replace(/\r?\n|\r/g, '') ?? null);
     },

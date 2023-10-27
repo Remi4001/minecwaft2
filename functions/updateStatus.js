@@ -1,3 +1,10 @@
+/**
+ * Updates the status of the discord bot
+ * @param {import('discord.js').Client} client Discord client
+ * @param {string} activity New activity name
+ * @param {import('discord.js').PresenceStatus} status Discord status
+ * @param {boolean} force Force the update
+ */
 module.exports = function updateStatus(client, activity, status, force = false) {
     // If no current status
     if (!client.user.presence.activities[0] || force) {
