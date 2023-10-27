@@ -27,9 +27,9 @@ module.exports = {
                         updateStatus(client, status[0], status[1]));
 
                 // Update the bot's avatar with the server's icon
-                module.exports.parseAvatar(data)
-                    .then((avatar) =>
-                        updateAvatar(client, avatar));
+                module.exports.parseIcon(data)
+                    .then((icon) =>
+                        updateAvatar(client, icon));
 
                 return;
             });
@@ -55,7 +55,7 @@ module.exports = {
         }
         return Promise.resolve([activity, 'online']);
     },
-    parseAvatar(data) {
+    parseIcon(data) {
         return Promise.resolve(data?.favicon?.replace(/\r?\n|\r/g, '') ?? null);
     },
 };

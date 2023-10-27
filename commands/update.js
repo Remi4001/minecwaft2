@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('discord.js');
 const mcHermes = require('mc-hermes');
 const updateAvatar = require('../functions/updateAvatar.js');
 const updateStatus = require('../functions/updateStatus.js');
-const { parseAvatar, parseStatus } = require('../functions/updateBot.js');
+const { parseIcon: parseAvatar, parseStatus } = require('../functions/updateBot.js');
 const { type, ip, port } = require('../config.json').server;
 
 module.exports = {
