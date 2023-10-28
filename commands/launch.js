@@ -31,7 +31,8 @@ module.exports = {
     logUser: true,
     cooldown: 10000,
     /**
-     * @param {import('discord.js').ChatInputCommandInteraction} interaction Slash command from Discord user
+     * @param {import('discord.js').ChatInputCommandInteraction} interaction
+     * Slash command from Discord user
      */
     async execute(interaction) {
         const serverName = interaction.options.getString('server');
@@ -68,18 +69,21 @@ module.exports = {
                     .catch((error) => {
                         console.error(error);
                         interaction.editReply({
-                            content: `Error while starting \`${serverName}\` server!`,
+                            content: `Error while starting \`${serverName}\` ` +
+                                'server!',
                         });
                     });
             });
     },
     /**
-     * @param {import('discord.js').AutocompleteInteraction} interaction Slash command from Discord user
+     * @param {import('discord.js').AutocompleteInteraction} interaction
+     * Slash command from Discord user
      */
     async autocomplete(interaction) {
         const focusedValue = interaction.options.getFocused();
         const choices = Object.keys(launch);
-        const filtered = choices.filter(choice => choice.startsWith(focusedValue));
+        const filtered = choices.filter(choice => choice
+            .startsWith(focusedValue));
         await interaction.respond(
             filtered.map(choice => ({ name: choice, value: choice })),
         );

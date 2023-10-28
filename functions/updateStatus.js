@@ -5,10 +5,17 @@
  * @param {import('discord.js').PresenceStatus} status Discord status
  * @param {boolean} force Force the update
  */
-module.exports = function updateStatus(client, activity, status, force = false) {
+module.exports = function updateStatus(
+    client,
+    activity,
+    status,
+    force = false) {
     // If no current status
     if (!client.user.presence.activities[0] || force) {
-        client.user.setPresence({ activities: [{ name: activity }], status: status });
+        client.user.setPresence({
+            activities: [{ name: activity }],
+            status: status,
+        });
         console.log(`OldStatus: ${null}\tNewStatus: ${activity}, ${status}`);
         return;
     }
@@ -21,7 +28,11 @@ module.exports = function updateStatus(client, activity, status, force = false) 
 
     // if current status is different
     if (diffActivity || diffStatus) {
-        client.user.setPresence({ activities: [{ name: activity }], status: status });
-        console.log(`OldStatus: ${cActivity}, ${cStatus}\tNewStatus: ${activity}, ${status}`);
+        client.user.setPresence({
+            activities: [{ name: activity }],
+            status: status,
+        });
+        console.log(`OldStatus: ${cActivity}, ${cStatus}\t` +
+            `NewStatus: ${activity}, ${status}`);
     }
 };

@@ -3,7 +3,8 @@ const { ownerId } = require('../config.json');
 module.exports = {
     name: 'interactionCreate',
     /**
-     * @param {import('discord.js').Interaction} interaction Slash command from Discord user
+     * @param {import('discord.js').Interaction} interaction
+     * Slash command from Discord user
      */
     execute(interaction) {
         if (interaction.isChatInputCommand()) {
@@ -12,7 +13,8 @@ module.exports = {
 
             if (!command) {
                 console.error(
-                    `No command matching ${interaction.commandName} was found.`);
+                    `No command matching ${interaction.commandName} was ` +
+                    'found.');
                 return;
             }
 
@@ -45,15 +47,18 @@ module.exports = {
                 .catch((error) => {
                     console.error(error);
                     interaction.reply({
-                        content: 'There was an error while executing this command!',
+                        content: 'There was an error while executing this ' +
+                            'command!',
                         ephemeral: true,
                     });
                 });
         } else if (interaction.isAutocomplete()) {
-            const command = interaction.client.commands.get(interaction.commandName);
+            const command = interaction.client.commands
+                .get(interaction.commandName);
 
             if (!command) {
-                console.error(`No command matching ${interaction.commandName} was found.`);
+                console.error(`No command matching ${interaction.commandName}` +
+                    ' was found.');
                 return;
             }
 

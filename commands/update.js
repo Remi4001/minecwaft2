@@ -2,7 +2,8 @@ const { SlashCommandBuilder } = require('discord.js');
 const mcHermes = require('mc-hermes');
 const updateAvatar = require('../functions/updateAvatar.js');
 const updateStatus = require('../functions/updateStatus.js');
-const { parseIcon: parseAvatar, parseStatus } = require('../functions/updateBot.js');
+const { parseIcon: parseAvatar, parseStatus } =
+    require('../functions/updateBot.js');
 const { type, ip, port } = require('../config.json').server;
 
 module.exports = {
@@ -21,9 +22,11 @@ module.exports = {
                 .setNameLocalizations({
                     fr: 'avatar',
                 })
-                .setDescription('Manually changes the bot\'s avatar to the Minecraft server\'s icon')
+                .setDescription('Manually changes the bot\'s avatar to the ' +
+                    'Minecraft server\'s icon')
                 .setDescriptionLocalizations({
-                    fr: 'Remplace manuellement l\'avatar du bot par l\'ic\u00f4ne du serveur Minecraft',
+                    fr: 'Remplace manuellement l\'avatar du bot par ' +
+                        'l\'ic\u00f4ne du serveur Minecraft',
                 }))
         .addSubcommand(subcommand =>
             subcommand
@@ -37,7 +40,8 @@ module.exports = {
                 })),
     cooldown: 60000,
     /**
-     * @param {import('discord.js').ChatInputCommandInteraction} interaction Slash command from Discord user
+     * @param {import('discord.js').ChatInputCommandInteraction} interaction
+     * Slash command from Discord user
      */
     async execute(interaction) {
         await interaction.deferReply({ ephemeral: true });

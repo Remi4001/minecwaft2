@@ -49,7 +49,7 @@ module.exports = {
             return ['Server booting...', 'idle'];
         }
 
-        let activity = data.players.online + '/' + data.players.max + ' connected ';
+        let activity = `${data.players.online}/${data.players.max} connected `;
 
         // Verify if forge mods are present
         if (!data.modinfo) {

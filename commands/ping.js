@@ -18,9 +18,11 @@ module.exports = {
                 .setNameLocalizations({
                     fr: 'd\u00e9faut',
                 })
-                .setDescription('Shows the status of the default Minecraft server')
+                .setDescription('Shows the status of the default Minecraft ' +
+                    'server')
                 .setDescriptionLocalizations({
-                    fr: 'Affiche le statut du serveur Minecraft par d\u00e9faut',
+                    fr: 'Affiche le statut du serveur Minecraft par ' +
+                        'd\u00e9faut',
                 })
                 .addStringOption(option =>
                     option
@@ -55,9 +57,11 @@ module.exports = {
                 .setNameLocalizations({
                     fr: 'serveur',
                 })
-                .setDescription('Shows the status of a specified Minecraft server')
+                .setDescription('Shows the status of a specified Minecraft ' +
+                    'server')
                 .setDescriptionLocalizations({
-                    fr: 'Affiche le statut du serveur Minecraft sp\u00e9cifi\u00e9',
+                    fr: 'Affiche le statut du serveur Minecraft ' +
+                        'sp\u00e9cifi\u00e9',
                 })
                 .addStringOption(option =>
                     option
@@ -113,7 +117,8 @@ module.exports = {
                         )),
         ),
     /**
-     * @param {import('discord.js').ChatInputCommandInteraction} interaction Slash command from Discord user
+     * @param {import('discord.js').ChatInputCommandInteraction} interaction
+     * Slash command from Discord user
      */
     async execute(interaction) {
         await interaction.deferReply();
@@ -127,7 +132,8 @@ module.exports = {
                 .catch(console.error)
                 .then((data) => reply(interaction, data));
         } else if (interaction.options.getSubcommand() === 'server') {
-            const adress = interaction.options.getString('adress').split(':', 2);
+            const adress = interaction.options.getString('adress')
+                .split(':', 2);
 
             mcHermes({
                 type: interaction.options.getString('type'),
@@ -141,7 +147,8 @@ module.exports = {
 };
 
 /**
- * @param {import('discord.js').CommandInteraction} interaction Slash command from Discord user
+ * @param {import('discord.js').CommandInteraction} interaction
+ * Slash command from Discord user
  * @param data Response from Minecraft server
  */
 async function reply(interaction, data) {
@@ -195,7 +202,8 @@ async function reply(interaction, data) {
             break;
         default:
             msg = `${data.players.online}/${data.players.max} ` +
-                `connected | ${data.version.name} ${data.modinfo ? 'Modded' : 'Vanilla'}`;
+                'connected | ' +
+                `${data.version.name} ${data.modinfo ? 'Modded' : 'Vanilla'}`;
     }
     return interaction.followUp({
         content: msg,

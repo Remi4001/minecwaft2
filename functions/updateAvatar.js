@@ -21,7 +21,8 @@ module.exports = function updateAvatar(client, icon, force = false) {
 /**
  * Get the current avatar of the discord bot
  * @param   {import('discord.js').Client} client Discord client
- * @returns {Promise<string|false>} Image, or false when the avatar was either the same or is default
+ * @returns {Promise<string|false>}
+ * Image, or false when the avatar was either the same or is default
  */
 function getBotAvatar(client) {
     const avatarURL = client.user.displayAvatarURL({
@@ -29,7 +30,8 @@ function getBotAvatar(client) {
         forceStatic: true,
     });
 
-    if (avatarURL.includes('/embed/') || getBotAvatar.prototype.oldURL === avatarURL) {
+    if (avatarURL.includes('/embed/') ||
+        getBotAvatar.prototype.oldURL === avatarURL) {
         return Promise.resolve(false);
     } else {
         getBotAvatar.prototype.oldURL = avatarURL;
