@@ -1,6 +1,6 @@
 {
   "name": "minecwaft2",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Discord bot with multiples capabilities related to Minecraft servers",
   "main": "index.js",
   "scripts": {
