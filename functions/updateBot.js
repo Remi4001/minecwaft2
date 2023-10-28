@@ -26,8 +26,7 @@ module.exports = {
             })
             .then((data) => {
                 // Update the bot's status
-                const status = module.exports.parseStatus(data);
-                updateStatus(client, status[0], status[1]);
+                updateStatus(client, ...module.exports.parseStatus(data));
 
                 // Update the bot's avatar with the server's icon
                 updateAvatar(client, module.exports.parseIcon(data));
