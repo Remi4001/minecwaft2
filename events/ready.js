@@ -10,6 +10,6 @@ module.exports = {
     execute(client) {
         updateBot(client);
         console.log(`Ready! Logged in as ${client.user.tag}`);
-        setInterval(updateBot, interval, client);
+        this.interval = setInterval(updateBot, interval, client);
     },
 };
