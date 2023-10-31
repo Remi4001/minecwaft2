@@ -91,7 +91,8 @@ module.exports = {
                 port: port,
             })
                 // Ignore errors from mcHermes
-                .catch()
+                // eslint-disable-next-line no-empty-function
+                .catch(() => { })
                 .then((data2) => {
                     if (parseStatus(data2)[1] === 'online') {
                         return message.reply({
