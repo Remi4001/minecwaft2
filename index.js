@@ -48,11 +48,13 @@ for (const file of eventFiles) {
 // Log in to Discord with your client's token
 client.login(token);
 
-// Shutdown properly
+/**
+ * Disconnects the bot properly and clears the event loop.
+ */
 function shutdown() {
     console.log('Shutting down...');
-    client.destroy()
-        .then(() => clearInterval(require('./events/ready').interval));
+    client.destroy();
+    clearInterval(require('./events/ready').interval);
 }
 process.on('SIGTERM', shutdown);
 process.on('SIGINT', shutdown);
