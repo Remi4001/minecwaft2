@@ -3,7 +3,8 @@ const util = require('util');
 const mcHermes = require('mc-hermes');
 const path = require('node:path');
 const execFile = util.promisify(require('child_process').execFile);
-const { launch } = require('../config.json');
+const { launch, interval } = require('../config.json');
+const { parseStatus } = require('../functions/updateBot');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -59,13 +60,14 @@ module.exports = {
                     });
                 }
                 execFile(path.join(launchPath, script), { timeout: 5000 })
-                    .then((({ stdout, stderr }) => {
+                    .then(({ stdout, stderr }) => {
                         console.log(`stdout: '${stdout}'`);
                         console.error(`stderr: '${stderr}'`);
-                        interaction.editReply({
+                        return interaction.editReply({
                             content: `Starting \`${serverName}\` server...`,
                         });
-                    }))
+                    })
+                    .then(replyWhenOnline)
                     .catch((error) => {
                         console.error(error);
                         interaction.editReply({
@@ -74,6 +76,34 @@ module.exports = {
                         });
                     });
             });
+
+        /**
+         * Checks if the launched server is online.
+         * If yes, sends a message to notify users.
+         * Else, do a setTimeout on itself to recheck later.
+         * @param {import('discord.js').Message} message
+         * The initial message sent by the bot
+         */
+        function replyWhenOnline(message) {
+            mcHermes({
+                type: type,
+                server: ip,
+                port: port,
+            })
+                // Ignore errors from mcHermes
+                .catch()
+                .then((data2) => {
+                    if (parseStatus(data2)[1] === 'online') {
+                        return message.reply({
+                            content: `Server \`${serverName}\` ` +
+                                'online!',
+                        });
+                    } else {
+                        setTimeout(() => replyWhenOnline(message),
+                            interval);
+                    }
+                });
+        }
     },
     /**
      * @param {import('discord.js').AutocompleteInteraction} interaction
