@@ -4,6 +4,7 @@
   "description": "Discord bot with multiples capabilities related to Minecraft servers",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint .",
     "postversion": "git push && git push --tags"
