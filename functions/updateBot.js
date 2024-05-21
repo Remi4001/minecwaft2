@@ -52,10 +52,10 @@ module.exports = {
             data.version.name + ' ';
 
         // Verify if forge mods are present
-        if (!data.modinfo) {
-            activity += 'Vanilla';
-        } else {
+        if (data.modinfo || data.forgeData) {
             activity += 'Modded';
+        } else {
+            activity += 'Vanilla';
         }
         return [activity, 'online'];
     },
