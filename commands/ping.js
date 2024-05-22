@@ -18,6 +18,14 @@ const extraOptionChoices = [{
         fr: 'Liste des mods',
     },
     value: 'modlist',
+},
+{
+    name: 'JSON data',
+    name_localizations: {
+        fr: 'Données JSON',
+    },
+    value: 'data',
+
 }];
 
 module.exports = {
@@ -136,7 +144,7 @@ async function reply(interaction, data) {
     let msg = new String;
 
     switch (option) {
-        case 'list':
+        case extraOptionChoices[0].value:
             if (!data.players.sample) {
                 msg = 'No players online';
             } else if (data.players.sample.length) {
@@ -148,7 +156,7 @@ async function reply(interaction, data) {
                 msg = 'Player list inaccessible';
             }
             break;
-        case 'modlist':
+        case extraOptionChoices[1].value:
             if (data.modinfo) {
                 msg = 'Mods present on the server:';
                 for (let i = 0; i < data.modinfo.modList.length; i++) {
@@ -168,6 +176,13 @@ async function reply(interaction, data) {
                 msg = 'No mods detected on the server';
             }
             break;
+        case extraOptionChoices[2].value:
+            return interaction.followUp({
+                files: [{
+                    attachment: Buffer.from(JSON.stringify(data, undefined, 4)),
+                    name: 'data.json',
+                }],
+            });
         default:
             msg = `${data.players.online}/${data.players.max} ` +
                 'connected | ' +
