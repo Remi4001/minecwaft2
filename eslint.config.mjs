@@ -54,7 +54,7 @@ export default [
             sourceType: 'commonjs',
             globals: {
                 ...globals.node,
-                ...globals.es6,
+                ...globals.es5,
             },
         },
     },
