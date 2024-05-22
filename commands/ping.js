@@ -24,32 +24,7 @@ module.exports = {
                     fr: 'Affiche le statut du serveur Minecraft par ' +
                         'd\u00e9faut',
                 })
-                .addStringOption(option =>
-                    option
-                        .setName('option')
-                        .setNameLocalizations({
-                            fr: 'option',
-                        })
-                        .setDescription('Extra options')
-                        .setDescriptionLocalizations({
-                            fr: 'Options extra',
-                        })
-                        .addChoices(
-                            {
-                                name: 'playerlist',
-                                name_localizations: {
-                                    fr: 'Liste des joueurs',
-                                },
-                                value: 'list',
-                            },
-                            {
-                                name: 'modlist',
-                                name_localizations: {
-                                    fr: 'Liste des mods',
-                                },
-                                value: 'modlist',
-                            },
-                        )),
+                .addStringOption(option => addExtraOption(option)),
         )
         .addSubcommand(subcommand =>
             subcommand
@@ -89,32 +64,7 @@ module.exports = {
                             fr: 'L\'adresse du serveur <ip:port>',
                         })
                         .setRequired(true))
-                .addStringOption(option =>
-                    option
-                        .setName('option')
-                        .setNameLocalizations({
-                            fr: 'option',
-                        })
-                        .setDescription('Extra options')
-                        .setDescriptionLocalizations({
-                            fr: 'Options extra',
-                        })
-                        .addChoices(
-                            {
-                                name: 'playerlist',
-                                name_localizations: {
-                                    fr: 'Liste des joueurs',
-                                },
-                                value: 'list',
-                            },
-                            {
-                                name: 'modlist',
-                                name_localizations: {
-                                    fr: 'Liste des mods',
-                                },
-                                value: 'modlist',
-                            },
-                        )),
+                .addStringOption(option => addExtraOption(option)),
         ),
     /**
      * @param {import('discord.js').ChatInputCommandInteraction} interaction
@@ -208,4 +158,36 @@ async function reply(interaction, data) {
     return interaction.followUp({
         content: msg,
     });
+}
+
+/**
+ * @param {import('discord.js').SlashCommandStringOption} option
+ * @returns {import('discord.js').SlashCommandStringOption}
+ */
+function addExtraOption(option) {
+    return option
+        .setName('option')
+        .setNameLocalizations({
+            fr: 'option',
+        })
+        .setDescription('Extra options')
+        .setDescriptionLocalizations({
+            fr: 'Options suppl\u00e9mentaires',
+        })
+        .addChoices(
+            {
+                name: 'playerlist',
+                name_localizations: {
+                    fr: 'Liste des joueurs',
+                },
+                value: 'list',
+            },
+            {
+                name: 'modlist',
+                name_localizations: {
+                    fr: 'Liste des mods',
+                },
+                value: 'modlist',
+            },
+        );
 }
