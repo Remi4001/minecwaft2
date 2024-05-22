@@ -2,6 +2,24 @@ const { SlashCommandBuilder } = require('discord.js');
 const mcHermes = require('mc-hermes');
 const { type, ip, port } = require('../config.json').server;
 
+/**
+ * @type {import('discord.js').APIApplicationCommandOptionChoice<string>[]}
+ */
+const extraOptionChoices = [{
+    name: 'Player list',
+    name_localizations: {
+        fr: 'Liste des joueurs',
+    },
+    value: 'list',
+},
+{
+    name: 'Mod list',
+    name_localizations: {
+        fr: 'Liste des mods',
+    },
+    value: 'modlist',
+}];
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('ping')
@@ -174,20 +192,5 @@ function addExtraOption(option) {
         .setDescriptionLocalizations({
             fr: 'Options suppl\u00e9mentaires',
         })
-        .addChoices(
-            {
-                name: 'playerlist',
-                name_localizations: {
-                    fr: 'Liste des joueurs',
-                },
-                value: 'list',
-            },
-            {
-                name: 'modlist',
-                name_localizations: {
-                    fr: 'Liste des mods',
-                },
-                value: 'modlist',
-            },
-        );
+        .addChoices(extraOptionChoices);
 }
