@@ -10,9 +10,8 @@ module.exports = function updateAvatar(client, icon, force = false) {
     getBotAvatar(client)
         .then(async oldAvatar => {
             if ((icon !== oldAvatar && icon) || force) {
-                client.user.setAvatar(icon)
-                    .then(console.log('New avatar set!'))
-                    .catch(console.error);
+                return client.user.setAvatar(icon)
+                    .then(console.log('New avatar set!'));
             }
         })
         .catch(console.error);

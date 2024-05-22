@@ -2,6 +2,32 @@ const { SlashCommandBuilder } = require('discord.js');
 const mcHermes = require('mc-hermes');
 const { type, ip, port } = require('../config.json').server;
 
+/**
+ * @type {import('discord.js').APIApplicationCommandOptionChoice<string>[]}
+ */
+const extraOptionChoices = [{
+    name: 'Player list',
+    name_localizations: {
+        fr: 'Liste des joueurs',
+    },
+    value: 'list',
+},
+{
+    name: 'Mod list',
+    name_localizations: {
+        fr: 'Liste des mods',
+    },
+    value: 'modlist',
+},
+{
+    name: 'JSON data',
+    name_localizations: {
+        fr: 'Données JSON',
+    },
+    value: 'data',
+
+}];
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('ping')
@@ -24,32 +50,7 @@ module.exports = {
                     fr: 'Affiche le statut du serveur Minecraft par ' +
                         'd\u00e9faut',
                 })
-                .addStringOption(option =>
-                    option
-                        .setName('option')
-                        .setNameLocalizations({
-                            fr: 'option',
-                        })
-                        .setDescription('Extra options')
-                        .setDescriptionLocalizations({
-                            fr: 'Options extra',
-                        })
-                        .addChoices(
-                            {
-                                name: 'playerlist',
-                                name_localizations: {
-                                    fr: 'Liste des joueurs',
-                                },
-                                value: 'list',
-                            },
-                            {
-                                name: 'modlist',
-                                name_localizations: {
-                                    fr: 'Liste des mods',
-                                },
-                                value: 'modlist',
-                            },
-                        )),
+                .addStringOption(option => addExtraOption(option)),
         )
         .addSubcommand(subcommand =>
             subcommand
@@ -89,32 +90,7 @@ module.exports = {
                             fr: 'L\'adresse du serveur <ip:port>',
                         })
                         .setRequired(true))
-                .addStringOption(option =>
-                    option
-                        .setName('option')
-                        .setNameLocalizations({
-                            fr: 'option',
-                        })
-                        .setDescription('Extra options')
-                        .setDescriptionLocalizations({
-                            fr: 'Options extra',
-                        })
-                        .addChoices(
-                            {
-                                name: 'playerlist',
-                                name_localizations: {
-                                    fr: 'Liste des joueurs',
-                                },
-                                value: 'list',
-                            },
-                            {
-                                name: 'modlist',
-                                name_localizations: {
-                                    fr: 'Liste des mods',
-                                },
-                                value: 'modlist',
-                            },
-                        )),
+                .addStringOption(option => addExtraOption(option)),
         ),
     /**
      * @param {import('discord.js').ChatInputCommandInteraction} interaction
@@ -168,7 +144,7 @@ async function reply(interaction, data) {
     let msg = new String;
 
     switch (option) {
-        case 'list':
+        case extraOptionChoices[0].value:
             if (!data.players.sample) {
                 msg = 'No players online';
             } else if (data.players.sample.length) {
@@ -180,7 +156,7 @@ async function reply(interaction, data) {
                 msg = 'Player list inaccessible';
             }
             break;
-        case 'modlist':
+        case extraOptionChoices[1].value:
             if (data.modinfo) {
                 msg = 'Mods present on the server:';
                 for (let i = 0; i < data.modinfo.modList.length; i++) {
@@ -200,6 +176,13 @@ async function reply(interaction, data) {
                 msg = 'No mods detected on the server';
             }
             break;
+        case extraOptionChoices[2].value:
+            return interaction.followUp({
+                files: [{
+                    attachment: Buffer.from(JSON.stringify(data, undefined, 4)),
+                    name: 'data.json',
+                }],
+            });
         default:
             msg = `${data.players.online}/${data.players.max} ` +
                 'connected | ' +
@@ -208,4 +191,21 @@ async function reply(interaction, data) {
     return interaction.followUp({
         content: msg,
     });
+}
+
+/**
+ * @param {import('discord.js').SlashCommandStringOption} option
+ * @returns {import('discord.js').SlashCommandStringOption}
+ */
+function addExtraOption(option) {
+    return option
+        .setName('option')
+        .setNameLocalizations({
+            fr: 'option',
+        })
+        .setDescription('Extra options')
+        .setDescriptionLocalizations({
+            fr: 'Options suppl\u00e9mentaires',
+        })
+        .addChoices(extraOptionChoices);
 }
