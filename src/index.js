@@ -55,6 +55,7 @@ function shutdown() {
     console.log('Shutting down...');
     client.destroy();
     clearInterval(require('./events/ready').interval);
+    clearInterval(require('./commands/launch').interval);
 }
 process.on('SIGTERM', shutdown);
 process.on('SIGINT', shutdown);
