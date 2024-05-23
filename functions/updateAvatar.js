@@ -3,15 +3,15 @@ const https = require('https');
 /**
  * Updates the avatar of the discord bot to be the server's icon
  * @param {import('discord.js').Client} client Discord client
- * @param {string} icon Minecraft server icon
+ * @param {?string} icon Minecraft server icon
  * @param {boolean} force Forces the avatar to be updated
  */
-module.exports = function updateAvatar(client, icon, force = false) {
-    getBotAvatar(client)
+module.exports = async function updateAvatar(client, icon, force = false) {
+    return getBotAvatar(client)
         .then(async oldAvatar => {
             if ((icon !== oldAvatar && icon) || force) {
                 return client.user.setAvatar(icon)
-                    .then(console.log('New avatar set!'));
+                    .then(() => console.log('New avatar set!'));
             }
         })
         .catch(console.error);
@@ -48,7 +48,7 @@ function getBotAvatar(client) {
                 getBotAvatar.prototype.lastAvatar = 'data:' +
                     res.headers['content-type'] +
                     ';base64,' +
-                    new Buffer.concat(data).toString('base64');
+                    Buffer.concat(data).toString('base64');
                 resolve(getBotAvatar.prototype.lastAvatar);
             });
             res.on('error', (error) => {

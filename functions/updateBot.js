@@ -35,7 +35,7 @@ module.exports = {
     /**
      * Parses the data from the Minecraft server to get the Discord bot's status
      * @param {any} data Response from Minecraft server
-     * @returns {[string, import('discord.js').PresenceStatus]}
+     * @returns {[string, import('discord.js').PresenceStatusData]}
      */
     parseStatus(data) {
         if (!data) {
@@ -62,7 +62,7 @@ module.exports = {
     /**
      * Parses the data from the Minecraft server to get the icon
      * @param {*} data Response from Minecraft server
-     * @returns {string} Image
+     * @returns {?string} Image
      */
     parseIcon(data) {
         return data?.favicon?.replace(/\r?\n|\r/g, '') ?? null;
