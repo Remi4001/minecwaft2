@@ -60,18 +60,14 @@ Make sure you have [node.js](https://nodejs.org/) installed first, tested with v
     ```
 4. Deploy the slash commands
     ```sh
-    node deploy-commands.js
+    npm run deploy-commands
     ```     
     If you need to remove all slash commands use this:
     ```sh
-    node deploy-commands.js delete
+    npm run delete-commands
     ```
 5. Start the bot and enjoy!
     ```sh
-    node index.js
-    ```
-    alternatively
-    ```sh
-    node .
+    npm start
     ```
     Use ctrl+c when you want to stop the bot.

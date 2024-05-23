@@ -1,7 +1,7 @@
 const mcHermes = require('mc-hermes');
 const updateAvatar = require('./updateAvatar.js');
 const updateStatus = require('./updateStatus.js');
-const { type, ip, port } = require('../config.json').server;
+const { type, ip, port } = require('../../config.json').server;
 
 let lastError;
 

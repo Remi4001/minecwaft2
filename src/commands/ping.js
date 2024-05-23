@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const mcHermes = require('mc-hermes');
-const { type, ip, port } = require('../config.json').server;
+const { type, ip, port } = require('../../config.json').server;
 
 /** @type {import('discord.js').APIApplicationCommandOptionChoice<string>[]} */
 const extraOptionChoices = [{

@@ -2,11 +2,13 @@
   "name": "minecwaft2",
   "version": "1.4.0",
   "description": "Discord bot with multiples capabilities related to Minecraft servers",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint .",
+    "deploy-commands": "node src/deploy-commands.js",
+    "delete-commands": "node src/deploy-commands.js delete",
     "postversion": "git push && git push --tags"
   },
   "repository": {
