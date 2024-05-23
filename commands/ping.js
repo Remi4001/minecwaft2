@@ -2,9 +2,7 @@ const { SlashCommandBuilder } = require('discord.js');
 const mcHermes = require('mc-hermes');
 const { type, ip, port } = require('../config.json').server;
 
-/**
- * @type {import('discord.js').APIApplicationCommandOptionChoice<string>[]}
- */
+/** @type {import('discord.js').APIApplicationCommandOptionChoice<string>[]} */
 const extraOptionChoices = [{
     name: 'Player list',
     name_localizations: {
@@ -123,7 +121,7 @@ module.exports = {
 };
 
 /**
- * @param {import('discord.js').CommandInteraction} interaction
+ * @param {import('discord.js').ChatInputCommandInteraction} interaction
  * Slash command from Discord user
  * @param data Response from Minecraft server
  */
@@ -141,7 +139,7 @@ async function reply(interaction, data) {
     }
 
     const option = interaction.options.getString('option');
-    let msg = new String;
+    let msg = '';
 
     switch (option) {
         case extraOptionChoices[0].value:

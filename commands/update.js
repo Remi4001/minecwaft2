@@ -52,19 +52,16 @@ module.exports = {
             port: port,
         })
             .catch(console.error)
-            .then(data => {
+            .then(async data => {
                 switch (interaction.options.getSubcommand()) {
                     case 'avatar':
                         // Update the bot's avatar with the server's icon
-                        updateAvatar(
+                        await updateAvatar(
                             interaction.client,
                             parseAvatar(data),
                             true,
                         );
-                        interaction.editReply({
-                            content: 'New avatar set!',
-                            ephemeral: true,
-                        });
+                        interaction.editReply({ content: 'New avatar set!' });
                         break;
                     case 'status':
                         // Update the bot's status
@@ -73,10 +70,7 @@ module.exports = {
                             ...parseStatus(data),
                             true,
                         );
-                        interaction.editReply({
-                            content: 'New status set!',
-                            ephemeral: true,
-                        });
+                        interaction.editReply({ content: 'New status set!' });
                         break;
                 }
             });
