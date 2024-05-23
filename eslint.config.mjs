@@ -1,9 +1,10 @@
 import globals from 'globals';
 import js from '@eslint/js';
-
+import jsdoc from 'eslint-plugin-jsdoc';
 
 export default [
     js.configs.recommended,
+    jsdoc.configs['flat/recommended'],
     {
         rules: {
             'arrow-spacing': ['warn', { 'before': true, 'after': true }],

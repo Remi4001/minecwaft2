@@ -5,6 +5,9 @@ module.exports = {
     /**
      * @param {import('discord.js').Interaction} interaction
      * Slash command from Discord user
+     * @returns {*}
+     * Possibly anything, ex: void if there is no corresponding command, the
+     * result from executing the command, a Promise<Message>, etc.
      */
     execute(interaction) {
         if (interaction.isChatInputCommand()) {
@@ -12,10 +15,9 @@ module.exports = {
                 interaction.commandName);
 
             if (!command) {
-                console.error(
+                return console.error(
                     `No command matching ${interaction.commandName} was ` +
                     'found.');
-                return;
             }
 
             if (command.logUser) {
@@ -43,10 +45,10 @@ module.exports = {
                 }, command.cooldown);
             }
 
-            command.execute(interaction)
+            return command.execute(interaction)
                 .catch((error) => {
                     console.error(error);
-                    interaction.reply({
+                    return interaction.reply({
                         content: 'There was an error while executing this ' +
                             'command!',
                         ephemeral: true,
@@ -57,12 +59,11 @@ module.exports = {
                 .get(interaction.commandName);
 
             if (!command) {
-                console.error(`No command matching ${interaction.commandName}` +
-                    ' was found.');
-                return;
+                return console.error('No command matching ' +
+                    `${interaction.commandName} was found.`);
             }
 
-            command.autocomplete(interaction)
+            return command.autocomplete(interaction)
                 .catch(console.error);
         }
     },

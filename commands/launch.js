@@ -34,6 +34,8 @@ module.exports = {
     /**
      * @param {import('discord.js').ChatInputCommandInteraction} interaction
      * Slash command from Discord user
+     * @returns {Promise<any>}
+     * Promise to be resolved when the server is online
      */
     async execute(interaction) {
         const serverName = interaction.options.getString('server');
@@ -47,7 +49,7 @@ module.exports = {
         const launchPath = path.join(path.dirname(__dirname), 'launch_scripts');
         const { type, ip, port, script } = launch[serverName];
 
-        mcHermes({
+        return mcHermes({
             type: type,
             server: ip,
             port: port,
@@ -70,7 +72,7 @@ module.exports = {
                     .then(replyWhenOnline)
                     .catch((error) => {
                         console.error(error);
-                        interaction.editReply({
+                        return interaction.editReply({
                             content: `Error while starting \`${serverName}\` ` +
                                 'server!',
                         });
@@ -83,27 +85,32 @@ module.exports = {
          * Else, do a setTimeout on itself to recheck later.
          * @param {import('discord.js').Message} message
          * The initial message sent by the bot
+         * @returns {Promise<import('discord.js').Message>}
+         * Promise resolved when the server is online
          */
         function replyWhenOnline(message) {
-            mcHermes({
-                type: type,
-                server: ip,
-                port: port,
-            })
-                // Ignore errors from mcHermes
-                // eslint-disable-next-line no-empty-function
-                .catch(() => { })
-                .then((data2) => {
-                    if (parseStatus(data2)[1] === 'online') {
-                        return message.reply({
-                            content: `Server \`${serverName}\` ` +
-                                'online!',
-                        });
-                    } else {
-                        setTimeout(() => replyWhenOnline(message),
-                            interval);
-                    }
-                });
+            return new Promise((resolve) => {
+                mcHermes({
+                    type: type,
+                    server: ip,
+                    port: port,
+                })
+                    // Ignore errors from mcHermes
+                    // eslint-disable-next-line no-empty-function
+                    .catch(() => { })
+                    .then((data) => {
+                        if (parseStatus(data)[1] === 'online') {
+                            const promise = message.reply({
+                                content: `Server \`${serverName}\` ` +
+                                    'online!',
+                            });
+                            resolve(promise);
+                        } else {
+                            setTimeout(() => resolve(replyWhenOnline(message)),
+                                interval);
+                        }
+                    });
+            });
         }
     },
     /**
