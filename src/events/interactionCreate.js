@@ -40,7 +40,7 @@ module.exports = {
                 });
             } else if (command.cooldown) {
                 interaction.client.commands.cooldowns.add(command.name);
-                setTimeout(() => {
+                this.interval[command.name] = setTimeout(() => {
                     interaction.client.commands.cooldowns.delete(command.name);
                 }, command.cooldown);
             }
@@ -67,4 +67,5 @@ module.exports = {
                 .catch(console.error);
         }
     },
+    interval: {},
 };

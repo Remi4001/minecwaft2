@@ -107,8 +107,8 @@ module.exports = {
                             });
                             resolve(promise);
                         } else {
-                            setTimeout(() => resolve(replyWhenOnline(message)),
-                                interval);
+                            module.exports.timeout = setTimeout(() =>
+                                resolve(replyWhenOnline(message)), interval);
                         }
                     });
             });
