@@ -30,7 +30,7 @@ module.exports = {
                 .setAutocomplete(true),
         ),
     logUser: true,
-    cooldown: 10000,
+    cooldown: 300000,
     /**
      * @param {import('discord.js').ChatInputCommandInteraction} interaction
      * Slash command from Discord user
