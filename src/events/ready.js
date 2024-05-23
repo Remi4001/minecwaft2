@@ -1,5 +1,5 @@
 const { updateBot } = require('../functions/updateBot.js');
-const { interval } = require('../config.json');
+const { interval } = require('../../config.json');
 
 module.exports = {
     name: 'ready',

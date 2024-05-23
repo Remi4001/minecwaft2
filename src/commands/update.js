@@ -4,7 +4,7 @@ const updateAvatar = require('../functions/updateAvatar.js');
 const updateStatus = require('../functions/updateStatus.js');
 const { parseIcon: parseAvatar, parseStatus } =
     require('../functions/updateBot.js');
-const { type, ip, port } = require('../config.json').server;
+const { type, ip, port } = require('../../config.json').server;
 
 module.exports = {
     data: new SlashCommandBuilder()

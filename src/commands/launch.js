@@ -3,7 +3,7 @@ const util = require('util');
 const mcHermes = require('mc-hermes');
 const path = require('node:path');
 const execFile = util.promisify(require('child_process').execFile);
-const { launch, interval } = require('../config.json');
+const { launch, interval } = require('../../config.json');
 const { parseStatus } = require('../functions/updateBot');
 
 module.exports = {
@@ -46,7 +46,8 @@ module.exports = {
         }
 
         await interaction.deferReply();
-        const launchPath = path.join(path.dirname(__dirname), 'launch_scripts');
+        const launchPath = path.join(path.dirname(path.dirname(__dirname)),
+            'launch_scripts');
         const { type, ip, port, script } = launch[serverName];
 
         return mcHermes({
