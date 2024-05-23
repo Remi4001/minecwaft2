@@ -5,6 +5,7 @@ const https = require('https');
  * @param {import('discord.js').Client} client Discord client
  * @param {?string} icon Minecraft server icon
  * @param {boolean} force Forces the avatar to be updated
+ * @returns {Promise<void>} promise resolved when the new avatar is set
  */
 module.exports = async function updateAvatar(client, icon, force = false) {
     return getBotAvatar(client)

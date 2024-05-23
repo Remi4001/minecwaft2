@@ -36,6 +36,7 @@ module.exports = {
      * Parses the data from the Minecraft server to get the Discord bot's status
      * @param {any} data Response from Minecraft server
      * @returns {[string, import('discord.js').PresenceStatusData]}
+     * The activity's name and the Discord status
      */
     parseStatus(data) {
         if (!data) {

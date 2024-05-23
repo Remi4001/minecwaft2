@@ -123,7 +123,8 @@ module.exports = {
 /**
  * @param {import('discord.js').ChatInputCommandInteraction} interaction
  * Slash command from Discord user
- * @param data Response from Minecraft server
+ * @param {*} data Response from Minecraft server
+ * @returns {Promise} Promise resolved when the reply is sent
  */
 async function reply(interaction, data) {
     if (!data) {
@@ -193,7 +194,9 @@ async function reply(interaction, data) {
 
 /**
  * @param {import('discord.js').SlashCommandStringOption} option
+ * Option when building a slash command
  * @returns {import('discord.js').SlashCommandStringOption}
+ * The input option with the new extra choices
  */
 function addExtraOption(option) {
     return option

@@ -28,9 +28,9 @@ module.exports = function updateStatus(
 };
 
 /**
- * @param {import('discord.js').Client} client
- * @param {string} activity
- * @param {import('discord.js').PresenceStatusData} status
+ * @param {import('discord.js').Client} client Discord client
+ * @param {string} activity new acivity name
+ * @param {import('discord.js').PresenceStatusData} status Discord status
  */
 function setStatus(client, activity, status) {
     client.user.setPresence({
