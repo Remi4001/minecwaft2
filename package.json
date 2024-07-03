@@ -30,7 +30,7 @@
     "mc-hermes": "^0.1.5"
   },
   "devDependencies": {
-    "eslint": "^9.5.0",
+    "eslint": "^9.6.0",
     "globals": "^15.7.0"
   }
 }
