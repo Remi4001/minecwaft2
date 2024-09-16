@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/Remi4001/minecwaft2#readme",
   "dependencies": {
-    "discord.js": "^14.16.1",
+    "discord.js": "^14.16.2",
     "mc-hermes": "^0.1.5"
   },
   "devDependencies": {
