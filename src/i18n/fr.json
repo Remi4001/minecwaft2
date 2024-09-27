@@ -1,0 +1,21 @@
+{
+    "noMatch": "Aucun serveur correspondant à `{{serverName}}` trouvé!",
+    "running": "Serveur `{{serverName}}` déjà en cours d'exécution!",
+    "starting": "Démarrage du serveur `{{serverName}}`...",
+    "starting2": "Serveur en cours de démarrage...",
+    "startError": "Erreur lors du démarrage du serveur `{{serverName}}`!",
+    "online": "Serveur `{{serverName}}` en ligne!",
+    "denied": "Eh non, tu ne peux pas faire ça!",
+    "onCooldown": "Sois patient! Cette commande a un délai de {{cooldown}} secondes entre chaque utilisation!",
+    "commandError": "Une erreur est survenue lors de l'exécution de cette commande!",
+    "unreachable": "Impossible d'atteindre le serveur!",
+    "noPlayers": "Aucun joueur en ligne",
+    "players": "Joueur(s) en ligne:",
+    "!players": "Liste des joueurs inacessible",
+    "mods": "Mods présents sur le serveur:",
+    "noMods": "Aucun mod détecté sur le serveur",
+    "ping": "{{pOnline}}/{{pMax}} connectés | {{version}} {{VorM}}",
+    "modded": "Moddé",
+    "newAvatar": "Avatar mis à jour!",
+    "newStatus": "Statut mis à jour!"
+}

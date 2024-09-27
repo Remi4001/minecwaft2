@@ -5,6 +5,7 @@ const updateStatus = require('../functions/updateStatus.js');
 const { parseIcon: parseAvatar, parseStatus } =
     require('../functions/updateBot.js');
 const { type, ip, port } = require('../../config.json').server;
+const getString = require('../i18n/i18n');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -61,7 +62,10 @@ module.exports = {
                             parseAvatar(data),
                             true,
                         );
-                        interaction.editReply({ content: 'New avatar set!' });
+                        interaction.editReply({
+                            content: await
+                            getString(interaction.locale, 'newAvatar'),
+                        });
                         break;
                     case 'status':
                         // Update the bot's status
@@ -70,7 +74,10 @@ module.exports = {
                             ...parseStatus(data),
                             true,
                         );
-                        interaction.editReply({ content: 'New status set!' });
+                        interaction.editReply({
+                            content: await
+                            getString(interaction.locale, 'newStatus'),
+                        });
                         break;
                 }
             });

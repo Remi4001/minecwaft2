@@ -1,4 +1,5 @@
 const { ownerId } = require('../../config.json');
+const getString = require('../i18n/i18n.js');
 
 module.exports = {
     name: 'interactionCreate',
@@ -9,7 +10,7 @@ module.exports = {
      * Possibly anything, ex: void if there is no corresponding command, the
      * result from executing the command, a Promise<Message>, etc.
      */
-    execute(interaction) {
+    async execute(interaction) {
         if (interaction.isChatInputCommand()) {
             const command = interaction.client.commands.get(
                 interaction.commandName);
@@ -27,15 +28,15 @@ module.exports = {
 
             if (command.ownerOnly && interaction.user.id !== ownerId) {
                 return interaction.reply({
-                    content: 'Nope! You can\'t do that!',
+                    content: await getString(interaction.locale, 'denied'),
                     ephemeral: true,
                 });
             }
 
             if (interaction.client.commands.cooldowns.has(command.name)) {
                 return interaction.reply({
-                    content: 'Be patient! This command has a ' +
-                        `${command.cooldown / 1000} seconds cooldown!`,
+                    content: await getString(interaction.locale, 'onCooldown',
+                        { cooldown: command.cooldown / 1000 }),
                     ephemeral: true,
                 });
             } else if (command.cooldown) {
@@ -46,11 +47,11 @@ module.exports = {
             }
 
             return command.execute(interaction)
-                .catch((error) => {
+                .catch(async (error) => {
                     console.error(error);
                     return interaction.reply({
-                        content: 'There was an error while executing this ' +
-                            'command!',
+                        content: await getString(interaction.locale,
+                            'commandError'),
                         ephemeral: true,
                     });
                 });

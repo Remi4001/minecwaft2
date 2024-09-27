@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 const mcHermes = require('mc-hermes');
 const { type, ip, port } = require('../../config.json').server;
+const getString = require('../i18n/i18n');
 
 /** @type {import('discord.js').APIApplicationCommandOptionChoice<string>[]} */
 const extraOptionChoices = [{
@@ -127,15 +128,17 @@ module.exports = {
  * @returns {Promise} Promise resolved when the reply is sent
  */
 async function reply(interaction, data) {
+    const getStringl =
+        (string, args) => getString(interaction.locale, string, args);
     if (!data) {
         return interaction.editReply({
-            content: 'Impossible to reach the server!',
+            content: await getStringl('unreachable'),
         });
     }
 
     if (!data.players) {
         return interaction.editReply({
-            content: 'Server starting...',
+            content: await getStringl('starting2'),
         });
     }
 
@@ -145,19 +148,20 @@ async function reply(interaction, data) {
     switch (option) {
         case extraOptionChoices[0].value:
             if (!data.players.sample) {
-                msg = 'No players online';
+                msg = await getStringl('noPlayers');
             } else if (data.players.sample.length) {
-                msg = 'Players connected:';
+                msg = await getStringl('players');
                 for (let i = 0; i < data.players.sample.length; i++) {
                     msg += `\n- ${data.players.sample[i].name}`;
                 }
             } else {
-                msg = 'Player list inaccessible';
+                msg = await getStringl('!players');
             }
             break;
         case extraOptionChoices[1].value:
             if (data.modinfo) {
-                msg = 'Mods present on the server:';
+                msg = await getStringl('mods');
+                // TODO: Return text file?
                 for (let i = 0; i < data.modinfo.modList.length; i++) {
                     const modinfo = `- ${data.modinfo.modList[i].modid}` +
                         ` ${data.modinfo.modList[i].version}`;
@@ -172,7 +176,7 @@ async function reply(interaction, data) {
                     }
                 }
             } else {
-                msg = 'No mods detected on the server';
+                msg = await getStringl('noMods');
             }
             break;
         case extraOptionChoices[2].value:
@@ -183,9 +187,13 @@ async function reply(interaction, data) {
                 }],
             });
         default:
-            msg = `${data.players.online}/${data.players.max} ` +
-                'connected | ' +
-                `${data.version.name} ${data.modinfo ? 'Modded' : 'Vanilla'}`;
+            msg = await getStringl('ping',
+                {
+                    pOnline: data.players.online,
+                    pMax: data.players.max,
+                    version: data.version.name,
+                    VorM: await getStringl(data.modinfo ? 'modded' : 'vanilla'),
+                });
     }
     return interaction.followUp({
         content: msg,

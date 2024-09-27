@@ -5,6 +5,7 @@ const path = require('node:path');
 const execFile = util.promisify(require('child_process').execFile);
 const { launch, interval } = require('../../config.json');
 const { parseStatus } = require('../functions/updateBot');
+const getString = require('../i18n/i18n.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -41,7 +42,8 @@ module.exports = {
         const serverName = interaction.options.getString('server');
         if (!Object.prototype.hasOwnProperty.call(launch, serverName)) {
             return interaction.reply({
-                content: `No server matching name \`${serverName}\` found!`,
+                content: await getString(interaction.locale, 'noMatch',
+                    { serverName }),
             });
         }
 
@@ -56,26 +58,28 @@ module.exports = {
             port: port,
         })
             .catch(console.error)
-            .then((data) => {
+            .then(async (data) => {
                 if (data) {
                     return interaction.editReply({
-                        content: `Server \`${serverName}\` already running!`,
+                        content: await getString(interaction.locale, 'running',
+                            { serverName }),
                     });
                 }
                 execFile(path.join(launchPath, script), { timeout: 5000 })
-                    .then(({ stdout, stderr }) => {
+                    .then(async ({ stdout, stderr }) => {
                         console.log(`stdout: '${stdout}'`);
                         console.error(`stderr: '${stderr}'`);
                         return interaction.editReply({
-                            content: `Starting \`${serverName}\` server...`,
+                            content: await getString(interaction.locale,
+                                'starting', { serverName }),
                         });
                     })
                     .then(replyWhenOnline)
-                    .catch((error) => {
+                    .catch(async (error) => {
                         console.error(error);
                         return interaction.editReply({
-                            content: `Error while starting \`${serverName}\` ` +
-                                'server!',
+                            content: await getString(interaction.locale,
+                                'startError', { serverName }),
                         });
                     });
             });
@@ -99,11 +103,11 @@ module.exports = {
                     // Ignore errors from mcHermes
                     // eslint-disable-next-line no-empty-function
                     .catch(() => { })
-                    .then((data) => {
+                    .then(async (data) => {
                         if (parseStatus(data)[1] === 'online') {
                             const promise = message.reply({
-                                content: `Server \`${serverName}\` ` +
-                                    'online!',
+                                content: await getString(interaction.locale,
+                                    'online', { serverName }),
                             });
                             resolve(promise);
                         } else {

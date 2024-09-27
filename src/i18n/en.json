@@ -1,0 +1,22 @@
+{
+    "noMatch": "No server matching `{{serverName}}` found!",
+    "running": "Server `{{serverName}}` already running!",
+    "starting": "Starting `{{serverName}}` server...",
+    "starting2": "Server starting...",
+    "startError": "Error while starting `{{serverName}}` server!",
+    "online": "Server `{{serverName}}` online!",
+    "denied": "Nope! You can't do that!",
+    "onCooldown": "Be patient! This command has a {{cooldown}} seconds cooldown!",
+    "commandError": "There was an error while executing this command!",
+    "unreachable": "Impossible to reach the server!",
+    "noPlayers": "No players online",
+    "players": "Player(s) connected:",
+    "!players": "Player list inaccessible",
+    "mods": "Mods present on the server",
+    "noMods": "No mods detected on the server",
+    "ping": "{{pOnline}}/{{pMax}} connected | {{version}} {{VorM}}",
+    "modded": "Modded",
+    "vanilla": "Vanilla",
+    "newAvatar": "New avatar set!",
+    "newStatus": "New status set!"
+}
