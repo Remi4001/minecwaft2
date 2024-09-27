@@ -10,20 +10,15 @@ module.exports = function updateStatus(
     activity,
     status,
     force = false) {
-    // If no current status
-    if (!client.user.presence.activities[0] || force) {
-        setStatus(client, activity, status);
-    }
-
-    const cActivity = client.user.presence.activities[0].name;
+    const cActivity = client.user.presence.activities[0]?.name;
     const cStatus = client.user.presence.status;
 
     const diffActivity = activity !== cActivity;
     const diffStatus = status !== cStatus;
 
     // if current status is different
-    if (diffActivity || diffStatus) {
-        setStatus(client, activity, status);
+    if (diffActivity || diffStatus || force) {
+        setStatus(client, activity, status, cActivity, cStatus);
     }
 };
 
@@ -31,11 +26,14 @@ module.exports = function updateStatus(
  * @param {import('discord.js').Client} client Discord client
  * @param {string} activity new acivity name
  * @param {import('discord.js').PresenceStatusData} status Discord status
+ * @param {string} cActivity current acivity name
+ * @param {import('discord.js').PresenceStatus} cStatus current status
  */
-function setStatus(client, activity, status) {
+function setStatus(client, activity, status, cActivity, cStatus) {
     client.user.setPresence({
         activities: [{ name: activity }],
         status,
     });
-    console.log(`OldStatus: ${null}\tNewStatus: ${activity}, ${status}`);
+    console.log(`OldStatus: ${cActivity}, ${cStatus}\t` +
+        `NewStatus: ${activity}, ${status}`);
 }
