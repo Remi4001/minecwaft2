@@ -4,6 +4,6 @@
         "target": "ES6",
         "checkJs": true,
         "resolveJsonModule": true
-    }
+    },
     "exclude": "node_modules"
 }
