@@ -20,8 +20,10 @@ const commandFiles = fs.readdirSync(commandsPath)
 for (const file of commandFiles) {
     const filePath = path.join(commandsPath, file);
     const command = require(filePath);
-    // Set a new item in the Collection with the key as the command name and
-    // the value as the exported module
+    /*
+     * Set a new item in the Collection with the key as the command name and
+     * the value as the exported module
+     */
     if ('data' in command && 'execute' in command) {
         client.commands.set(command.data.name, command);
     } else {
@@ -57,7 +59,7 @@ function shutdown() {
     clearInterval(require('./events/ready').interval);
     clearTimeout(require('./commands/launch').timeout);
     Object.values(require('./events/interactionCreate').interval)
-        .forEach((timeout) => clearTimeout(timeout));
+        .forEach(timeout => { clearTimeout(timeout); });
 }
 process.on('SIGTERM', shutdown);
 process.on('SIGINT', shutdown);

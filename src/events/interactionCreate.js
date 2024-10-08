@@ -1,6 +1,8 @@
 const { ownerId } = require('../../config.json');
 const getString = require('../i18n/i18n.js');
 
+const msInSecond = 1000;
+
 module.exports = {
     name: 'interactionCreate',
     /**
@@ -36,7 +38,7 @@ module.exports = {
             if (interaction.client.commands.cooldowns.has(command.name)) {
                 return interaction.reply({
                     content: await getString(interaction.locale, 'onCooldown',
-                        { cooldown: command.cooldown / 1000 }),
+                        { cooldown: command.cooldown / msInSecond }),
                     ephemeral: true,
                 });
             } else if (command.cooldown) {
@@ -47,7 +49,7 @@ module.exports = {
             }
 
             return command.execute(interaction)
-                .catch(async (error) => {
+                .catch(async error => {
                     console.error(error);
                     return interaction.reply({
                         content: await getString(interaction.locale,

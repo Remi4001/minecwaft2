@@ -27,6 +27,11 @@ const extraOptionChoices = [{
 
 }];
 
+const jsonSpaces = 4;
+// ip + port
+const maxFieldsInAddress = 2;
+const messageMaxLength = 2000;
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('ping')
@@ -37,59 +42,55 @@ module.exports = {
         .setDescriptionLocalizations({
             fr: 'Affiche le status d\'un serveur Minecraft',
         })
-        .addSubcommand(subcommand =>
-            subcommand
-                .setName('default')
-                .setNameLocalizations({
-                    fr: 'd\u00e9faut',
-                })
-                .setDescription('Shows the status of the default Minecraft ' +
-                    'server')
-                .setDescriptionLocalizations({
-                    fr: 'Affiche le statut du serveur Minecraft par ' +
-                        'd\u00e9faut',
-                })
-                .addStringOption(option => addExtraOption(option)),
+        .addSubcommand(subcommand => subcommand
+            .setName('default')
+            .setNameLocalizations({
+                fr: 'd\u00e9faut',
+            })
+            .setDescription('Shows the status of the default Minecraft ' +
+                'server')
+            .setDescriptionLocalizations({
+                fr: 'Affiche le statut du serveur Minecraft par ' +
+                    'd\u00e9faut',
+            })
+            .addStringOption(option => addExtraOption(option)),
         )
-        .addSubcommand(subcommand =>
-            subcommand
-                .setName('server')
+        .addSubcommand(subcommand => subcommand
+            .setName('server')
+            .setNameLocalizations({
+                fr: 'serveur',
+            })
+            .setDescription('Shows the status of a specified Minecraft ' +
+                'server')
+            .setDescriptionLocalizations({
+                fr: 'Affiche le statut du serveur Minecraft ' +
+                    'sp\u00e9cifi\u00e9',
+            })
+            .addStringOption(option => option
+                .setName('type')
                 .setNameLocalizations({
-                    fr: 'serveur',
+                    fr: 'type',
                 })
-                .setDescription('Shows the status of a specified Minecraft ' +
-                    'server')
+                .setDescription('The type of Minecraft server')
                 .setDescriptionLocalizations({
-                    fr: 'Affiche le statut du serveur Minecraft ' +
-                        'sp\u00e9cifi\u00e9',
+                    fr: 'Le type du serveur Minecraft',
                 })
-                .addStringOption(option =>
-                    option
-                        .setName('type')
-                        .setNameLocalizations({
-                            fr: 'type',
-                        })
-                        .setDescription('The type of Minecraft server')
-                        .setDescriptionLocalizations({
-                            fr: 'Le type du serveur Minecraft',
-                        })
-                        .setRequired(true)
-                        .addChoices(
-                            { name: 'Java', value: 'pc' },
-                            { name: 'Bedrock', value: 'pe' },
-                        ))
-                .addStringOption(option =>
-                    option
-                        .setName('adress')
-                        .setNameLocalizations({
-                            fr: 'adresse',
-                        })
-                        .setDescription('The adress of the server <ip:port>')
-                        .setDescriptionLocalizations({
-                            fr: 'L\'adresse du serveur <ip:port>',
-                        })
-                        .setRequired(true))
-                .addStringOption(option => addExtraOption(option)),
+                .setRequired(true)
+                .addChoices(
+                    { name: 'Java', value: 'pc' },
+                    { name: 'Bedrock', value: 'pe' },
+                ))
+            .addStringOption(option => option
+                .setName('adress')
+                .setNameLocalizations({
+                    fr: 'adresse',
+                })
+                .setDescription('The adress of the server <ip:port>')
+                .setDescriptionLocalizations({
+                    fr: 'L\'adresse du serveur <ip:port>',
+                })
+                .setRequired(true))
+            .addStringOption(option => addExtraOption(option)),
         ),
     /**
      * @param {import('discord.js').ChatInputCommandInteraction} interaction
@@ -99,16 +100,12 @@ module.exports = {
         await interaction.deferReply();
         // TODO: locale
         if (interaction.options.getSubcommand() === 'default') {
-            mcHermes({
-                type: type,
-                server: ip,
-                port: port,
-            })
+            mcHermes({ type, server: ip, port })
                 .catch(console.error)
-                .then((data) => reply(interaction, data));
+                .then(data => reply(interaction, data));
         } else if (interaction.options.getSubcommand() === 'server') {
             const adress = interaction.options.getString('adress')
-                .split(':', 2);
+                .split(':', maxFieldsInAddress);
 
             mcHermes({
                 type: interaction.options.getString('type'),
@@ -116,7 +113,7 @@ module.exports = {
                 port: adress[1],
             })
                 .catch(console.error)
-                .then((data) => reply(interaction, data));
+                .then(data => reply(interaction, data));
         }
     },
 };
@@ -143,7 +140,7 @@ async function reply(interaction, data) {
     }
 
     const option = interaction.options.getString('option');
-    let msg = '';
+    let msg;
 
     switch (option) {
         case extraOptionChoices[0].value:
@@ -166,10 +163,8 @@ async function reply(interaction, data) {
                     const modinfo = `- ${data.modinfo.modList[i].modid}` +
                         ` ${data.modinfo.modList[i].version}`;
 
-                    if (msg.length + modinfo.length > 2000) {
-                        await interaction.followUp({
-                            content: msg,
-                        });
+                    if (msg.length + modinfo.length > messageMaxLength) {
+                        await interaction.followUp({ content: msg });
                         msg = modinfo;
                     } else {
                         msg += '\n' + modinfo;
@@ -182,7 +177,8 @@ async function reply(interaction, data) {
         case extraOptionChoices[2].value:
             return interaction.followUp({
                 files: [{
-                    attachment: Buffer.from(JSON.stringify(data, undefined, 4)),
+                    attachment: Buffer.from(JSON.stringify(data, undefined,
+                        jsonSpaces)),
                     name: 'data.json',
                 }],
             });
@@ -195,9 +191,7 @@ async function reply(interaction, data) {
                     VorM: await getStringl(data.modinfo ? 'modded' : 'vanilla'),
                 });
     }
-    return interaction.followUp({
-        content: msg,
-    });
+    return interaction.followUp({ content: msg });
 }
 
 /**
