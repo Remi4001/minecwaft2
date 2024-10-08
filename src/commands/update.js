@@ -17,28 +17,26 @@ module.exports = {
         .setDescriptionLocalizations({
             fr: 'Met à jour l\'apparence du bot sur Discord',
         })
-        .addSubcommand(subcommand =>
-            subcommand
-                .setName('avatar')
-                .setNameLocalizations({
-                    fr: 'avatar',
-                })
-                .setDescription('Manually changes the bot\'s avatar to the ' +
-                    'Minecraft server\'s icon')
-                .setDescriptionLocalizations({
-                    fr: 'Remplace manuellement l\'avatar du bot par ' +
-                        'l\'ic\u00f4ne du serveur Minecraft',
-                }))
-        .addSubcommand(subcommand =>
-            subcommand
-                .setName('status')
-                .setNameLocalizations({
-                    fr: 'statut',
-                })
-                .setDescription('Manually updates the bot\'s status on Discord')
-                .setDescriptionLocalizations({
-                    fr: 'Met à jour manuellement le statut du bot sur Discord',
-                })),
+        .addSubcommand(subcommand => subcommand
+            .setName('avatar')
+            .setNameLocalizations({
+                fr: 'avatar',
+            })
+            .setDescription('Manually changes the bot\'s avatar to the ' +
+                'Minecraft server\'s icon')
+            .setDescriptionLocalizations({
+                fr: 'Remplace manuellement l\'avatar du bot par ' +
+                    'l\'ic\u00f4ne du serveur Minecraft',
+            }))
+        .addSubcommand(subcommand => subcommand
+            .setName('status')
+            .setNameLocalizations({
+                fr: 'statut',
+            })
+            .setDescription('Manually updates the bot\'s status on Discord')
+            .setDescriptionLocalizations({
+                fr: 'Met à jour manuellement le statut du bot sur Discord',
+            })),
     cooldown: 60000,
     /**
      * @param {import('discord.js').ChatInputCommandInteraction} interaction
@@ -47,11 +45,7 @@ module.exports = {
     async execute(interaction) {
         await interaction.deferReply({ ephemeral: true });
 
-        mcHermes({
-            type: type,
-            server: ip,
-            port: port,
-        })
+        mcHermes({ type, server: ip, port })
             .catch(console.error)
             .then(async data => {
                 switch (interaction.options.getSubcommand()) {

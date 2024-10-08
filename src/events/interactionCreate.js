@@ -1,12 +1,14 @@
 const { ownerId } = require('../../config.json');
 const getString = require('../i18n/i18n.js');
 
+const msInSecond = 1000;
+
 module.exports = {
     name: 'interactionCreate',
     /**
      * @param {import('discord.js').Interaction} interaction
      * Slash command from Discord user
-     * @returns {*}
+     * @returns {Promise<any>}
      * Possibly anything, ex: void if there is no corresponding command, the
      * result from executing the command, a Promise<Message>, etc.
      */
@@ -33,21 +35,22 @@ module.exports = {
                 });
             }
 
-            if (interaction.client.commands.cooldowns.has(command.name)) {
+            if (interaction.client.commands.cooldowns.has(command.data.name)) {
                 return interaction.reply({
                     content: await getString(interaction.locale, 'onCooldown',
-                        { cooldown: command.cooldown / 1000 }),
+                        { cooldown: command.cooldown / msInSecond }),
                     ephemeral: true,
                 });
             } else if (command.cooldown) {
-                interaction.client.commands.cooldowns.add(command.name);
-                this.interval[command.name] = setTimeout(() => {
-                    interaction.client.commands.cooldowns.delete(command.name);
+                interaction.client.commands.cooldowns.add(command.data.name);
+                this.interval[command.data.name] = setTimeout(() => {
+                    interaction.client.commands.cooldowns.delete(
+                        command.data.name);
                 }, command.cooldown);
             }
 
             return command.execute(interaction)
-                .catch(async (error) => {
+                .catch(async error => {
                     console.error(error);
                     return interaction.reply({
                         content: await getString(interaction.locale,

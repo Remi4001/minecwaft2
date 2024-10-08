@@ -10,7 +10,7 @@ const https = require('https');
 module.exports = async function updateAvatar(client, icon, force = false) {
     return getBotAvatar(client)
         .then(async oldAvatar => {
-            if ((icon !== oldAvatar && icon) || force) {
+            if (icon !== oldAvatar && icon || force) {
                 return client.user.setAvatar(icon)
                     .then(() => console.log('New avatar set!'));
             }
@@ -39,10 +39,10 @@ function getBotAvatar(client) {
 
     // get bot's avatar using URL
     return new Promise((resolve, reject) => {
-        https.get(avatarURL, (res) => {
+        https.get(avatarURL, res => {
             const data = [];
 
-            res.on('data', (chunk) => {
+            res.on('data', chunk => {
                 data.push(chunk);
             });
             res.on('end', () => {
@@ -52,7 +52,7 @@ function getBotAvatar(client) {
                     Buffer.concat(data).toString('base64');
                 resolve(getBotAvatar.prototype.lastAvatar);
             });
-            res.on('error', (error) => {
+            res.on('error', error => {
                 reject(error);
             });
         });

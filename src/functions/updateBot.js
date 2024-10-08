@@ -12,11 +12,7 @@ module.exports = {
      */
     updateBot(client) {
         // ping the Minecraft server
-        mcHermes({
-            type: type,
-            server: ip,
-            port: port,
-        })
+        mcHermes({ type, server: ip, port })
             // log errors, but process the data anyway
             .catch(error => {
                 if (error.toString() !== lastError) {
@@ -24,7 +20,7 @@ module.exports = {
                     lastError = error.toString();
                 }
             })
-            .then((data) => {
+            .then(data => {
                 // Update the bot's status
                 updateStatus(client, ...module.exports.parseStatus(data));
 

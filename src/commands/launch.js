@@ -17,18 +17,17 @@ module.exports = {
         .setDescriptionLocalizations({
             fr: 'Lancer un serveur Minecraft',
         })
-        .addStringOption(option =>
-            option
-                .setName('server')
-                .setNameLocalizations({
-                    fr: 'serveur',
-                })
-                .setDescription('The server to launch')
-                .setDescriptionLocalizations({
-                    fr: 'Le serveur à lancer',
-                })
-                .setRequired(true)
-                .setAutocomplete(true),
+        .addStringOption(option => option
+            .setName('server')
+            .setNameLocalizations({
+                fr: 'serveur',
+            })
+            .setDescription('The server to launch')
+            .setDescriptionLocalizations({
+                fr: 'Le serveur à lancer',
+            })
+            .setRequired(true)
+            .setAutocomplete(true),
         ),
     logUser: true,
     cooldown: 300000,
@@ -52,13 +51,9 @@ module.exports = {
             'launch_scripts');
         const { type, ip, port, script } = launch[serverName];
 
-        return mcHermes({
-            type: type,
-            server: ip,
-            port: port,
-        })
+        return mcHermes({ type, server: ip, port })
             .catch(console.error)
-            .then(async (data) => {
+            .then(async data => {
                 if (data) {
                     return interaction.editReply({
                         content: await getString(interaction.locale, 'running',
@@ -75,7 +70,7 @@ module.exports = {
                         });
                     })
                     .then(replyWhenOnline)
-                    .catch(async (error) => {
+                    .catch(async error => {
                         console.error(error);
                         return interaction.editReply({
                             content: await getString(interaction.locale,
@@ -94,16 +89,12 @@ module.exports = {
          * Promise resolved when the server is online
          */
         function replyWhenOnline(message) {
-            return new Promise((resolve) => {
-                mcHermes({
-                    type: type,
-                    server: ip,
-                    port: port,
-                })
+            return new Promise(resolve => {
+                mcHermes({ type, server: ip, port })
                     // Ignore errors from mcHermes
                     // eslint-disable-next-line no-empty-function
                     .catch(() => { })
-                    .then(async (data) => {
+                    .then(async data => {
                         if (parseStatus(data)[1] === 'online') {
                             const promise = message.reply({
                                 content: await getString(interaction.locale,
@@ -111,8 +102,8 @@ module.exports = {
                             });
                             resolve(promise);
                         } else {
-                            module.exports.timeout = setTimeout(() =>
-                                resolve(replyWhenOnline(message)), interval);
+                            module.exports.timeout = setTimeout(() => resolve(
+                                replyWhenOnline(message)), interval);
                         }
                     });
             });

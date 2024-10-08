@@ -9,8 +9,10 @@ const commands = [];
 const commandFiles = fs.readdirSync(path.join(__dirname, 'commands'))
     .filter(file => file.endsWith('.js'));
 
-// Grab the SlashCommandBuilder#toJSON() output of each command's data for
-// deployment
+/*
+ * Grab the SlashCommandBuilder#toJSON() output of each command's data for
+ * deployment
+ */
 if (process.argv[2] !== 'delete') {
     for (const file of commandFiles) {
         const command = require(`./commands/${file}`);
@@ -27,12 +29,16 @@ const rest = new REST({ version: '10' }).setToken(token);
         console.log(`Started refreshing ${commands.length} application (/) ` +
             'commands.');
 
-        // The put method is used to fully refresh all commands in the guild
-        // with the current set
+        /*
+         * The put method is used to fully refresh all commands in the guild
+         * with the current set
+         */
         const data = await rest.put(
-            // For deploying commands locally on a specific guild
-            // Routes.applicationGuildCommands(clientId, guildId),
-            // For deploying commands globally
+            /*
+             * For deploying commands locally on a specific guild
+             * Routes.applicationGuildCommands(clientId, guildId),
+             * For deploying commands globally
+             */
             Routes.applicationCommands(clientId),
             { body: commands },
         );
