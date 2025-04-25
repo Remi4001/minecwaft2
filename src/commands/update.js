@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, MessageFlags } = require('discord.js');
 const mcHermes = require('mc-hermes');
 const updateAvatar = require('../functions/updateAvatar.js');
 const updateStatus = require('../functions/updateStatus.js');
@@ -43,7 +43,7 @@ module.exports = {
      * Slash command from Discord user
      */
     async execute(interaction) {
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
         mcHermes({ type, server: ip, port })
             .catch(console.error)

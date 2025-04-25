@@ -1,3 +1,4 @@
+const { MessageFlags } = require('discord.js');
 const { ownerId } = require('../../config.json');
 const getString = require('../i18n/i18n.js');
 
@@ -31,7 +32,7 @@ module.exports = {
             if (command.ownerOnly && interaction.user.id !== ownerId) {
                 return interaction.reply({
                     content: await getString(interaction.locale, 'denied'),
-                    ephemeral: true,
+                    flags: MessageFlags.Ephemeral,
                 });
             }
 
@@ -39,7 +40,7 @@ module.exports = {
                 return interaction.reply({
                     content: await getString(interaction.locale, 'onCooldown',
                         { cooldown: command.cooldown / msInSecond }),
-                    ephemeral: true,
+                    flags: MessageFlags.Ephemeral,
                 });
             } else if (command.cooldown) {
                 interaction.client.commands.cooldowns.add(command.data.name);
@@ -55,7 +56,7 @@ module.exports = {
                     return interaction.reply({
                         content: await getString(interaction.locale,
                             'commandError'),
-                        ephemeral: true,
+                        flags: MessageFlags.Ephemeral,
                     });
                 });
         } else if (interaction.isAutocomplete()) {
