@@ -1,3 +1,5 @@
+const { ActivityType } = require('discord.js');
+
 /**
  * Updates the status of the discord bot
  * @param {import('discord.js').Client} client Discord client
@@ -31,7 +33,11 @@ module.exports = function updateStatus(
  */
 function setStatus(client, activity, status, cActivity, cStatus) {
     client.user.setPresence({
-        activities: [{ name: activity }],
+        activities: [{
+            name: activity,
+            state: activity,
+            type: ActivityType.Custom,
+        }],
         status,
     });
     console.log(`OldStatus: ${cActivity}, ${cStatus}\t` +
