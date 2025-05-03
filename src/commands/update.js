@@ -57,13 +57,14 @@ module.exports = {
         mcHermes({ type, server: ip, port })
             .catch(console.error)
             .then(async (data) => {
+                const force = true;
                 switch (interaction.options.getSubcommand()) {
                     case 'avatar':
                         // Update the bot's avatar with the server's icon
                         await updateAvatar(
                             interaction.client,
                             parseAvatar(data),
-                            true,
+                            force,
                         );
                         interaction.editReply({
                             content: await getString(
@@ -77,7 +78,7 @@ module.exports = {
                         updateStatus(
                             interaction.client,
                             ...parseStatus(data),
-                            true,
+                            force,
                         );
                         interaction.editReply({
                             content: await getString(
