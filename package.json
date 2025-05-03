@@ -29,7 +29,8 @@
   "homepage": "https://github.com/Remi4001/minecwaft2#readme",
   "dependencies": {
     "discord.js": "^14.18.0",
-    "mc-hermes": "^0.1.5"
+    "mc-hermes": "^0.1.5",
+    "sharp": "^0.34.1"
   },
   "devDependencies": {
     "@stylistic/eslint-plugin-js": "^4.2.0",
