@@ -28,13 +28,13 @@
   },
   "homepage": "https://github.com/Remi4001/minecwaft2#readme",
   "dependencies": {
-    "discord.js": "^14.21.0",
+    "discord.js": "^14.24.0",
     "mc-hermes": "^0.1.5"
   },
   "devDependencies": {
     "@stylistic/eslint-plugin-js": "^4.4.1",
-    "eslint": "^9.31.0",
-    "eslint-plugin-jsdoc": "^51.3.4",
-    "globals": "^16.3.0"
+    "eslint": "^9.38.0",
+    "eslint-plugin-jsdoc": "^61.1.9",
+    "globals": "^16.4.0"
   }
 }

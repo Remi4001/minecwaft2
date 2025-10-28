@@ -40,10 +40,11 @@ const eventFiles = fs.readdirSync(eventsPath)
 for (const file of eventFiles) {
     const filePath = path.join(eventsPath, file);
     const event = require(filePath);
+    const eventName = file.replace(/\.js$/, '');
     if (event.once) {
-        client.once(event.name, (...args) => event.execute(...args));
+        client.once(eventName, (...args) => event.execute(...args));
     } else {
-        client.on(event.name, (...args) => event.execute(...args));
+        client.on(eventName, (...args) => event.execute(...args));
     }
 }
 
@@ -56,7 +57,7 @@ client.login(token);
 function shutdown() {
     console.log('Shutting down...');
     client.destroy();
-    clearInterval(require('./events/ready').interval);
+    clearInterval(require('./events/clientReady').interval);
     clearTimeout(require('./commands/launch').timeout);
     Object.values(require('./events/interactionCreate').interval)
         .forEach(timeout => { clearTimeout(timeout); });
