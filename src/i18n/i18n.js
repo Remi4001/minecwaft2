@@ -44,7 +44,7 @@ module.exports = async function getString(locale, string, args) {
 
 /**
  * @param {string} locale Locale code (ex. 'en-US', 'fr')
- * @returns {Promise<any>} Contents of the file from the specified locale,
+ * @returns {Promise<object>} Contents of the file from the specified locale,
  * or english if the specified locale wasn't found
  */
 async function getLocaleFile(locale) {

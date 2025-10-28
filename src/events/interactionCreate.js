@@ -8,7 +8,7 @@ module.exports = {
     /**
      * @param {import('discord.js').Interaction} interaction
      * Slash command from Discord user
-     * @returns {Promise<any>}
+     * @returns {Promise}
      * Possibly anything, ex: void if there is no corresponding command, the
      * result from executing the command, a Promise<Message>, etc.
      */

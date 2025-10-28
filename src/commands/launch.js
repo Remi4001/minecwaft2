@@ -35,7 +35,7 @@ module.exports = {
     /**
      * @param {import('discord.js').ChatInputCommandInteraction} interaction
      * Slash command from Discord user
-     * @returns {Promise<any>}
+     * @returns {Promise}
      * Promise to be resolved when the server is online
      */
     async execute(interaction) {
@@ -98,7 +98,7 @@ module.exports = {
          * Else, do a setTimeout on itself to recheck later.
          * @param {import('discord.js').Message} message
          * The initial message sent by the bot
-         * @returns {Promise<import('discord.js').Message>}
+         * @returns {ReturnType<typeof import('discord.js').Message.prototype.reply>}
          * Promise resolved when the server is online
          */
         function replyWhenOnline(message) {
