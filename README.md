@@ -12,9 +12,11 @@ Created following the guides from https://discordjs.guide/. You definitely shoul
     - Dnd: server offline
 
     ![](img/status.png "Example using mc.hypixel.net as the server")
+
 - Change avatar based on the Minecraft server's icon
 
     ![](img/avatar.png "Example using mc.hypixel.net as the server")
+
 - Ping any Minecraft server and retrieve playerlist or modlist when possible
 
     ![](img/ping1.png "Example of /ping default using mc.hypixel.net as the default server")
@@ -22,11 +24,13 @@ Created following the guides from https://discordjs.guide/. You definitely shoul
     ![](img/ping2.png "Example of playerlist")
 
     ![](img/ping3.png "Example of modlist")
+
 - Command to launch a Minecraft server from Discord
 
-    ![](img/launch.png "Example launching the server named \"modded\"")
+    ![](img/launch.png 'Example launching the server named "modded"')
 
 ## Slash commands
+
 - `launch`: Launch a Minecraft server from Discord
 - `ping`: Ping a Minecraft server from Discord, can retrieve player count, version, mods and playerlist
 - `update`: Manually update the bot's avatar or status
@@ -61,7 +65,7 @@ Make sure you have [node.js](https://nodejs.org/) installed first, tested with v
 4. Deploy the slash commands
     ```sh
     npm run deploy-commands
-    ```     
+    ```
     If you need to remove all slash commands use this:
     ```sh
     npm run delete-commands

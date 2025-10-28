@@ -4,28 +4,29 @@ const { type, ip, port } = require('../../config.json').server;
 const getString = require('../i18n/i18n');
 
 /** @type {import('discord.js').APIApplicationCommandOptionChoice<string>[]} */
-const extraOptionChoices = [{
-    name: 'Player list',
-    name_localizations: {
-        fr: 'Liste des joueurs',
+const extraOptionChoices = [
+    {
+        name: 'Player list',
+        name_localizations: {
+            fr: 'Liste des joueurs',
+        },
+        value: 'list',
     },
-    value: 'list',
-},
-{
-    name: 'Mod list',
-    name_localizations: {
-        fr: 'Liste des mods',
+    {
+        name: 'Mod list',
+        name_localizations: {
+            fr: 'Liste des mods',
+        },
+        value: 'modlist',
     },
-    value: 'modlist',
-},
-{
-    name: 'JSON data',
-    name_localizations: {
-        fr: 'Données JSON',
+    {
+        name: 'JSON data',
+        name_localizations: {
+            fr: 'Données JSON',
+        },
+        value: 'data',
     },
-    value: 'data',
-
-}];
+];
 
 const jsonSpaces = 4;
 // ip + port
@@ -40,57 +41,67 @@ module.exports = {
         })
         .setDescription('Shows the status of a Minecraft server')
         .setDescriptionLocalizations({
-            fr: 'Affiche le status d\'un serveur Minecraft',
+            fr: "Affiche le status d'un serveur Minecraft",
         })
-        .addSubcommand(subcommand => subcommand
-            .setName('default')
-            .setNameLocalizations({
-                fr: 'd\u00e9faut',
-            })
-            .setDescription('Shows the status of the default Minecraft ' +
-                'server')
-            .setDescriptionLocalizations({
-                fr: 'Affiche le statut du serveur Minecraft par ' +
-                    'd\u00e9faut',
-            })
-            .addStringOption(option => addExtraOption(option)),
+        .addSubcommand((subcommand) =>
+            subcommand
+                .setName('default')
+                .setNameLocalizations({
+                    fr: 'd\u00e9faut',
+                })
+                .setDescription(
+                    'Shows the status of the default Minecraft ' + 'server',
+                )
+                .setDescriptionLocalizations({
+                    fr:
+                        'Affiche le statut du serveur Minecraft par ' +
+                        'd\u00e9faut',
+                })
+                .addStringOption((option) => addExtraOption(option)),
         )
-        .addSubcommand(subcommand => subcommand
-            .setName('server')
-            .setNameLocalizations({
-                fr: 'serveur',
-            })
-            .setDescription('Shows the status of a specified Minecraft ' +
-                'server')
-            .setDescriptionLocalizations({
-                fr: 'Affiche le statut du serveur Minecraft ' +
-                    'sp\u00e9cifi\u00e9',
-            })
-            .addStringOption(option => option
-                .setName('type')
+        .addSubcommand((subcommand) =>
+            subcommand
+                .setName('server')
                 .setNameLocalizations({
-                    fr: 'type',
+                    fr: 'serveur',
                 })
-                .setDescription('The type of Minecraft server')
+                .setDescription(
+                    'Shows the status of a specified Minecraft ' + 'server',
+                )
                 .setDescriptionLocalizations({
-                    fr: 'Le type du serveur Minecraft',
+                    fr:
+                        'Affiche le statut du serveur Minecraft ' +
+                        'sp\u00e9cifi\u00e9',
                 })
-                .setRequired(true)
-                .addChoices(
-                    { name: 'Java', value: 'pc' },
-                    { name: 'Bedrock', value: 'pe' },
-                ))
-            .addStringOption(option => option
-                .setName('adress')
-                .setNameLocalizations({
-                    fr: 'adresse',
-                })
-                .setDescription('The adress of the server <ip:port>')
-                .setDescriptionLocalizations({
-                    fr: 'L\'adresse du serveur <ip:port>',
-                })
-                .setRequired(true))
-            .addStringOption(option => addExtraOption(option)),
+                .addStringOption((option) =>
+                    option
+                        .setName('type')
+                        .setNameLocalizations({
+                            fr: 'type',
+                        })
+                        .setDescription('The type of Minecraft server')
+                        .setDescriptionLocalizations({
+                            fr: 'Le type du serveur Minecraft',
+                        })
+                        .setRequired(true)
+                        .addChoices(
+                            { name: 'Java', value: 'pc' },
+                            { name: 'Bedrock', value: 'pe' },
+                        ),
+                )
+                .addStringOption((option) =>
+                    option
+                        .setName('adress')
+                        .setNameLocalizations({
+                            fr: 'adresse',
+                        })
+                        .setDescription('The adress of the server <ip:port>')
+                        .setDescriptionLocalizations({
+                            fr: "L'adresse du serveur <ip:port>",
+                        })
+                        .setRequired(true),
+                )
+                .addStringOption((option) => addExtraOption(option)),
         ),
     /**
      * @param {import('discord.js').ChatInputCommandInteraction} interaction
@@ -102,9 +113,10 @@ module.exports = {
         if (interaction.options.getSubcommand() === 'default') {
             mcHermes({ type, server: ip, port })
                 .catch(console.error)
-                .then(data => reply(interaction, data));
+                .then((data) => reply(interaction, data));
         } else if (interaction.options.getSubcommand() === 'server') {
-            const adress = interaction.options.getString('adress')
+            const adress = interaction.options
+                .getString('adress')
                 .split(':', maxFieldsInAddress);
 
             mcHermes({
@@ -113,7 +125,7 @@ module.exports = {
                 port: adress[1],
             })
                 .catch(console.error)
-                .then(data => reply(interaction, data));
+                .then((data) => reply(interaction, data));
         }
     },
 };
@@ -125,8 +137,8 @@ module.exports = {
  * @returns {Promise} Promise resolved when the reply is sent
  */
 async function reply(interaction, data) {
-    const getStringl =
-        (string, args) => getString(interaction.locale, string, args);
+    const getStringl = (string, args) =>
+        getString(interaction.locale, string, args);
     if (!data) {
         return interaction.editReply({
             content: await getStringl('unreachable'),
@@ -160,7 +172,8 @@ async function reply(interaction, data) {
                 msg = await getStringl('mods');
                 // TODO: Return text file?
                 for (let i = 0; i < data.modinfo.modList.length; i++) {
-                    const modinfo = `- ${data.modinfo.modList[i].modid}` +
+                    const modinfo =
+                        `- ${data.modinfo.modList[i].modid}` +
                         ` ${data.modinfo.modList[i].version}`;
 
                     if (msg.length + modinfo.length > messageMaxLength) {
@@ -176,20 +189,22 @@ async function reply(interaction, data) {
             break;
         case extraOptionChoices[2].value:
             return interaction.followUp({
-                files: [{
-                    attachment: Buffer.from(JSON.stringify(data, undefined,
-                        jsonSpaces)),
-                    name: 'data.json',
-                }],
+                files: [
+                    {
+                        attachment: Buffer.from(
+                            JSON.stringify(data, undefined, jsonSpaces),
+                        ),
+                        name: 'data.json',
+                    },
+                ],
             });
         default:
-            msg = await getStringl('ping',
-                {
-                    pOnline: data.players.online,
-                    pMax: data.players.max,
-                    version: data.version.name,
-                    VorM: await getStringl(data.modinfo ? 'modded' : 'vanilla'),
-                });
+            msg = await getStringl('ping', {
+                pOnline: data.players.online,
+                pMax: data.players.max,
+                version: data.version.name,
+                VorM: await getStringl(data.modinfo ? 'modded' : 'vanilla'),
+            });
     }
     return interaction.followUp({ content: msg });
 }

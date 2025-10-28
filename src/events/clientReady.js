@@ -18,7 +18,9 @@ module.exports = {
         client.on('shardReady', () => {
             mcHermes({ type, server: ip, port })
                 .catch(console.error)
-                .then(data => updateStatus(client, ...parseStatus(data), true));
+                .then((data) =>
+                    updateStatus(client, ...parseStatus(data), true),
+                );
         });
     },
 };

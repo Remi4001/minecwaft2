@@ -11,7 +11,8 @@ module.exports = function updateStatus(
     client,
     activity,
     status,
-    force = false) {
+    force = false,
+) {
     const cActivity = client.user.presence.activities[0]?.name;
     const cStatus = client.user.presence.status;
 
@@ -33,13 +34,17 @@ module.exports = function updateStatus(
  */
 function setStatus(client, activity, status, cActivity, cStatus) {
     client.user.setPresence({
-        activities: [{
-            name: activity,
-            state: activity,
-            type: ActivityType.Custom,
-        }],
+        activities: [
+            {
+                name: activity,
+                state: activity,
+                type: ActivityType.Custom,
+            },
+        ],
         status,
     });
-    console.log(`OldStatus: ${cActivity}, ${cStatus}\t` +
-        `NewStatus: ${activity}, ${status}`);
+    console.log(
+        `OldStatus: ${cActivity}, ${cStatus}\t` +
+            `NewStatus: ${activity}, ${status}`,
+    );
 }

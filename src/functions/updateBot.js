@@ -14,13 +14,13 @@ module.exports = {
         // ping the Minecraft server
         mcHermes({ type, server: ip, port })
             // log errors, but process the data anyway
-            .catch(error => {
+            .catch((error) => {
                 if (error.toString() !== lastError) {
                     console.error(error);
                     lastError = error.toString();
                 }
             })
-            .then(data => {
+            .then((data) => {
                 // Update the bot's status
                 updateStatus(client, ...module.exports.parseStatus(data));
 
@@ -45,8 +45,10 @@ module.exports = {
             return ['Server booting...', 'idle'];
         }
 
-        let activity = `${data.players.online}/${data.players.max} connected ` +
-            data.version.name + ' ';
+        let activity =
+            `${data.players.online}/${data.players.max} connected ` +
+            data.version.name +
+            ' ';
 
         // Verify if forge mods are present
         if (data.modinfo || data.forgeData) {

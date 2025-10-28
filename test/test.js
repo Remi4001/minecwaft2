@@ -7,11 +7,10 @@ exec('>&2 echo "error"')
         console.log(`stdout: '${stdout}'`);
         console.error(`stderr: '${stderr}'`);
     })
-    .catch(error => {
+    .catch((error) => {
         if (error.stderr.includes('duplicate session')) {
             exec('tmux pipep -I -t test "echo Hello World!"');
         } else {
             console.error(error);
         }
     });
-

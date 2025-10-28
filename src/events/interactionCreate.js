@@ -15,12 +15,14 @@ module.exports = {
     async execute(interaction) {
         if (interaction.isChatInputCommand()) {
             const command = interaction.client.commands.get(
-                interaction.commandName);
+                interaction.commandName,
+            );
 
             if (!command) {
                 return console.error(
                     `No command matching ${interaction.commandName} was ` +
-                    'found.');
+                        'found.',
+                );
             }
 
             if (command.logUser) {
@@ -37,38 +39,43 @@ module.exports = {
 
             if (interaction.client.commands.cooldowns.has(command.data.name)) {
                 return interaction.reply({
-                    content: await getString(interaction.locale, 'onCooldown',
-                        { cooldown: command.cooldown / msInSecond }),
+                    content: await getString(interaction.locale, 'onCooldown', {
+                        cooldown: command.cooldown / msInSecond,
+                    }),
                     flags: MessageFlags.Ephemeral,
                 });
             } else if (command.cooldown) {
                 interaction.client.commands.cooldowns.add(command.data.name);
                 this.interval[command.data.name] = setTimeout(() => {
                     interaction.client.commands.cooldowns.delete(
-                        command.data.name);
+                        command.data.name,
+                    );
                 }, command.cooldown);
             }
 
-            return command.execute(interaction)
-                .catch(async error => {
-                    console.error(error);
-                    return interaction.reply({
-                        content: await getString(interaction.locale,
-                            'commandError'),
-                        flags: MessageFlags.Ephemeral,
-                    });
+            return command.execute(interaction).catch(async (error) => {
+                console.error(error);
+                return interaction.reply({
+                    content: await getString(
+                        interaction.locale,
+                        'commandError',
+                    ),
+                    flags: MessageFlags.Ephemeral,
                 });
+            });
         } else if (interaction.isAutocomplete()) {
-            const command = interaction.client.commands
-                .get(interaction.commandName);
+            const command = interaction.client.commands.get(
+                interaction.commandName,
+            );
 
             if (!command) {
-                return console.error('No command matching ' +
-                    `${interaction.commandName} was found.`);
+                return console.error(
+                    'No command matching ' +
+                        `${interaction.commandName} was found.`,
+                );
             }
 
-            return command.autocomplete(interaction)
-                .catch(console.error);
+            return command.autocomplete(interaction).catch(console.error);
         }
     },
     interval: {},

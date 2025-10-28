@@ -19,7 +19,8 @@ module.exports = async function getString(locale, string, args) {
     const strings = await getLocaleFile(locale);
 
     /** @type {string} */
-    let stringToReturn = strings[string] ??
+    let stringToReturn =
+        strings[string] ??
         (await getLocaleFile(defaultLocale))[string] ??
         `(fixme) Placeholder for ${locale}:${string}`;
 
@@ -31,9 +32,11 @@ module.exports = async function getString(locale, string, args) {
         return stringToReturn.replace(/{{.*?}}/g, args);
     }
 
-    keys.forEach(key => {
-        stringToReturn = stringToReturn
-            .replace(new RegExp(`{{${key}}}`, 'g'), args[key]);
+    keys.forEach((key) => {
+        stringToReturn = stringToReturn.replace(
+            new RegExp(`{{${key}}}`, 'g'),
+            args[key],
+        );
     });
 
     return stringToReturn;
@@ -56,7 +59,7 @@ async function getLocaleFile(locale) {
         filePath = path.join(__dirname, `${defaultLocale}.json`);
     }
     return promisify(fs.readFile)(filePath)
-        .then(buffer => JSON.parse(buffer.toString()))
-        .then(json => fileCache[locale] = json)
+        .then((buffer) => JSON.parse(buffer.toString()))
+        .then((json) => (fileCache[locale] = json))
         .catch(console.error);
 }
