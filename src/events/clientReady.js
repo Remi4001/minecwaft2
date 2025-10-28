@@ -5,7 +5,6 @@ const mcHermes = require('mc-hermes');
 const updateStatus = require('../functions/updateStatus.js');
 
 module.exports = {
-    name: 'ready',
     once: true,
     /**
      * @param {import('discord.js').Client} client Discord bot

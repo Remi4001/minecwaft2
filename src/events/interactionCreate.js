@@ -5,7 +5,6 @@ const getString = require('../i18n/i18n.js');
 const msInSecond = 1000;
 
 module.exports = {
-    name: 'interactionCreate',
     /**
      * @param {import('discord.js').Interaction} interaction
      * Slash command from Discord user
