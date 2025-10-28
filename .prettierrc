@@ -1,0 +1,14 @@
+overrides:
+  - files:
+      - "*.js"
+      - "*.mjs"
+    options:
+      singleQuote: true
+  - files:
+      - "package*.json"
+      - "*.yaml"
+      - "*.yml"
+      - ".prettierrc"
+    options:
+      tabWidth: 2
+tabWidth: 4
