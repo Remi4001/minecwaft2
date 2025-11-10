@@ -31,7 +31,7 @@
   "dependencies": {
     "discord.js": "^14.24.0",
     "mc-hermes": "^0.1.5",
-    "sharp": "^0.34.4"
+    "sharp": "^0.34.5"
   },
   "devDependencies": {
     "eslint": "^9.38.0",
