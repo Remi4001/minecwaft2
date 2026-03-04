@@ -1,8 +1,9 @@
+import { defineConfig } from 'eslint/config';
 import globals from 'globals';
 import js from '@eslint/js';
 import jsdoc from 'eslint-plugin-jsdoc';
 
-export default [
+export default defineConfig([
     js.configs.recommended,
     jsdoc.configs['flat/recommended'],
     {
@@ -55,4 +56,4 @@ export default [
             },
         },
     },
-];
+]);

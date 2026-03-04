@@ -34,9 +34,10 @@
     "sharp": "^0.34.5"
   },
   "devDependencies": {
-    "eslint": "^9.39.2",
-    "eslint-plugin-jsdoc": "^62.3.1",
-    "globals": "^17.1.0",
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.0.3",
+    "eslint-plugin-jsdoc": "^62.8.0",
+    "globals": "^17.4.0",
     "prettier": "^3.8.1"
   }
 }
